@@ -1,1 +1,2 @@
-# pos_java-java_aplicado_a_redes_de_computadores
+# Java Aplicado A Redes De Computadores
+Este repositório contém códigos desenvolvidos durante a realização da disciplina de **Java Aplicado A Redes De Computadores** do programa de Pós Graduação Latus Sensu - **Especialização em Tecnologia Java** ofertado pela **Universidade Tecnológica Federal do Paraná**
