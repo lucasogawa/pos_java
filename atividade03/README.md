@@ -1,0 +1,2 @@
+# Atividade 03
+Através de Sockets foi desenvolvido um programa onde um Cliente se comunica com o Servidor, e o mesmo recebe de resposta uma confirmação de recebimento. A interface gráfica do Cliente foi desenvolvida atrás de Swing.
