@@ -1,11 +1,19 @@
 package com.ogawalucas.atividade03;
 
 import java.io.DataInputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Cliente extends javax.swing.JFrame {
+
+    private javax.swing.JButton jButtonEnviar;
+    private javax.swing.JLabel jLabelIdade;
+    private javax.swing.JLabel jLabelNome;
+    private javax.swing.JLabel jLabelRetornoServidor;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextAreaRetornoServidor;
+    private javax.swing.JTextField jTextFieldIdade;
+    private javax.swing.JTextField jTextFieldNome;
 
     private static Socket socket;
     private static ObjectOutputStream saida;
@@ -16,9 +24,7 @@ public class Cliente extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         jLabelNome = new javax.swing.JLabel();
         jTextFieldNome = new javax.swing.JTextField();
         jLabelIdade = new javax.swing.JLabel();
@@ -97,11 +103,11 @@ public class Cliente extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
+    private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {
         enviar();
-    }//GEN-LAST:event_jButtonEnviarActionPerformed
+    }
 
     private void enviar() {
         try {
@@ -152,16 +158,4 @@ public class Cliente extends javax.swing.JFrame {
             }
         });
     }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonEnviar;
-    private javax.swing.JLabel jLabelIdade;
-    private javax.swing.JLabel jLabelNome;
-    private javax.swing.JLabel jLabelRetornoServidor;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextAreaRetornoServidor;
-    private javax.swing.JTextField jTextFieldIdade;
-    private javax.swing.JTextField jTextFieldNome;
-    // End of variables declaration//GEN-END:variables
-
 }

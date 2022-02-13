@@ -8,7 +8,7 @@ public class Pessoa implements Serializable {
     private int idade;
     
     public Pessoa() {
-        
+
     }
     
     public Pessoa(String nome, int idade) { 
@@ -31,7 +31,4 @@ public class Pessoa implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    
-    
 }
