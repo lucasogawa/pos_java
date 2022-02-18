@@ -18,8 +18,9 @@ nb-configuration.xml
 *.war
 *.ear
 
-# Target #
-/atividade03/target/
-
 # MacOs Files #
 *.DS_Store
+
+# Target #
+/atividade03/target/
+/atividade04/target/

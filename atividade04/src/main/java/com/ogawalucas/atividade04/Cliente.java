@@ -1,4 +1,4 @@
-package com.ogawalucas.atividade03;
+package com.ogawalucas.atividade04;
 
 import java.io.DataInputStream;
 import java.io.ObjectOutputStream;
