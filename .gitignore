@@ -47,8 +47,3 @@ nb-configuration.xml
 
 # MacOs Files #
 *.DS_Store
-
-# Target #
-/atividade01/target/
-/atividade03/target/
-/atividade04/target/
