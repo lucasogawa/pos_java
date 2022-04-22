@@ -37,16 +37,18 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Londrina</td>
-            <td>Paraná</td>
-            <td>
-                <div class="d-flex d-justify-content-center">
-                    <a class="btn btn-warning mr-3">EDIT</a>
-                    <a class="btn btn-danger">DELETE</a>
-                </div>
-            </td>
-        </tr>
+        <#list cities as citie >
+            <tr>
+                <td>${citie.name()}</td>
+                <td>${citie.state()}</td>
+                <td>
+                    <div class="d-flex d-justify-content-center">
+                        <a class="btn btn-warning mr-3">EDIT</a>
+                        <a class="btn btn-danger">DELETE</a>
+                    </div>
+                </td>
+            </tr>
+        </#list>
         </tbody>
     </table>
 </div>
