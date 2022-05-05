@@ -5,18 +5,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class CitiesController {
+
+    private Set<Citie> cities;
+
+    public CitiesController() {
+        cities = new HashSet<>();
+    }
+
     @GetMapping
     public String getHtml(Model model) {
-        var cities = List.of(
-            new Citie("Assis", "SP"),
-            new Citie("Cornélio Procópio", "PR"),
-            new Citie("Itajaí", "SC")
-        );
-
         model.addAttribute("cities", cities);
 
         return "/cities";
