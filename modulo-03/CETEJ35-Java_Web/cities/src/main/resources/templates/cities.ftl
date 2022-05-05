@@ -17,14 +17,14 @@
         <h1>CITY MANAGEMENT</h1>
         <p>A CRUD OF CITIES</p>
     </div>
-    <form>
+    <form action="/cities" method="POST">
         <div class="form-group">
             <label for="name">Cities:</label>
-            <input type="text" class="form-control" placeholder="Citie" id="name">
+            <input name="name" type="text" class="form-control" placeholder="Citie" id="name">
         </div>
         <div class="form-group">
             <label for="state">State:</label>
-            <input type="text" class="form-control" placeholder="State" id="state">
+            <input name="state" type="text" class="form-control" placeholder="State" id="state">
         </div>
         <button type="submit" class="btn btn-primary">CREATE</button>
     </form>
