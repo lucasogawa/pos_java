@@ -17,8 +17,6 @@ public class CitiesController {
             new Citie("Itajaí", "SC")
         );
 
-
-
         model.addAttribute("cities", cities);
 
         return "/cities";
