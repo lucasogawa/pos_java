@@ -3,9 +3,7 @@ package com.ogawalucas.cities.modules.cities.controller;
 import com.ogawalucas.cities.modules.cities.dto.Citie;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +28,13 @@ public class CitiesController {
     @PostMapping
     public String create(Citie citie) {
         cities.add(citie);
+
+        return "redirect:/cities";
+    }
+
+    @GetMapping("delete")
+    public String delete(@RequestParam String name, @RequestParam String state) {
+        cities.removeIf(citie -> citie.name().equals(name) && citie.state().equals(state));
 
         return "redirect:/cities";
     }

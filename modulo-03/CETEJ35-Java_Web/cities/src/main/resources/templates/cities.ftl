@@ -44,7 +44,7 @@
                 <td>
                     <div class="d-flex d-justify-content-center">
                         <a class="btn btn-warning mr-3">EDIT</a>
-                        <a class="btn btn-danger">DELETE</a>
+                        <a class="btn btn-danger" href="/cities/delete?name=${citie.name()}&state=${citie.state()}">DELETE</a>
                     </div>
                 </td>
             </tr>
