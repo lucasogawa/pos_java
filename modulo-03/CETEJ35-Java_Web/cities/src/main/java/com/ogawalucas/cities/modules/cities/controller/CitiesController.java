@@ -25,6 +25,19 @@ public class CitiesController {
         return "/cities";
     }
 
+    @GetMapping("model")
+    public String get(Model model, @RequestParam String name, @RequestParam String state) {
+            cities.stream()
+            .filter(citie -> citie.name().equals(name) && citie.state().equals(state))
+            .findFirst()
+            .ifPresent(citie -> {
+                model.addAttribute("citie", citie);
+                model.addAttribute("cities", cities);
+            });
+
+        return "/cities";
+    }
+
     @PostMapping
     public String create(Citie citie) {
         cities.add(citie);
@@ -35,6 +48,14 @@ public class CitiesController {
     @GetMapping("delete")
     public String delete(@RequestParam String name, @RequestParam String state) {
         cities.removeIf(citie -> citie.name().equals(name) && citie.state().equals(state));
+
+        return "redirect:/cities";
+    }
+
+    @PostMapping("edit")
+    public String edit(@RequestParam String actualName, @RequestParam String actualState, Citie citie) {
+        delete(actualName, actualState);
+        create(citie);
 
         return "redirect:/cities";
     }
