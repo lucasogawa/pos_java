@@ -18,24 +18,30 @@
         <p>A CRUD OF CITIES</p>
     </div>
 
-        <#if citie??>
-            <form action="/cities/edit" method="POST">
-            <input type="hidden" name="actualName" value="${(citie.name())!}"/>
-            <input type="hidden" name="actualState" value="${(citie.state())!}"/>
+        <#if actualCitie??>
+            <form action="/cities/edit" method="POST" class="needs-validation" novalidate>
+            <input type="hidden" name="actualName" value="${(actualCitie.name)!}"/>
+            <input type="hidden" name="actualState" value="${(actualCitie.state)!}"/>
         <#else>
-            <form action="/cities" method="POST">
+            <form action="/cities" method="POST" class="needs-validation" novalidate>
         </#if>
 
         <div class="form-group">
             <label for="name">Cities:</label>
-            <input value="${(citie.name())!}" name="name" type="text" class="form-control" placeholder="Citie" id="name">
+            <input required value="${(actualCitie.name)!}${informedName!}" name="name" type="text" class="form-control" placeholder="Citie" id="name">
+            <div>
+                ${name!}
+            </div>
         </div>
         <div class="form-group">
             <label for="state">State:</label>
-            <input value="${(citie.state())!}" name="state" type="text" class="form-control" placeholder="State" id="state">
+            <input maxlength="2" required value="${(actualCitie.state)!}${informedState!}" name="state" type="text" class="form-control" placeholder="State" id="state">
+            <div>
+                ${state!}
+            </div>
         </div>
 
-        <#if citie??>
+        <#if actualCitie??>
             <button type="submit" class="btn btn-warning">EDIT</button>
         <#else>
             <button type="submit" class="btn btn-primary">CREATE</button>
@@ -53,12 +59,12 @@
         <tbody>
         <#list cities as citie>
             <tr>
-                <td>${citie.name()}</td>
-                <td>${citie.state()}</td>
+                <td>${citie.name}</td>
+                <td>${citie.state}</td>
                 <td>
                     <div class="d-flex d-justify-content-center">
-                        <a class="btn btn-warning mr-3" href="/cities/model?name=${citie.name()}&state=${citie.state()}">EDIT</a>
-                        <a class="btn btn-danger" href="/cities/delete?name=${citie.name()}&state=${citie.state()}">DELETE</a>
+                        <a class="btn btn-warning mr-3" href="/cities/model?name=${citie.name}&state=${citie.state}">EDIT</a>
+                        <a class="btn btn-danger" href="/cities/delete?name=${citie.name}&state=${citie.state}">DELETE</a>
                     </div>
                 </td>
             </tr>
