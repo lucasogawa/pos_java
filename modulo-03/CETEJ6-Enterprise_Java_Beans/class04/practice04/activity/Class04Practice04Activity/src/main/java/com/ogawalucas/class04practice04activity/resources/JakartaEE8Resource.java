@@ -1,4 +1,4 @@
-package com.ogawalucas.class04practice04.resources;
+package com.ogawalucas.class04practice04activity.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

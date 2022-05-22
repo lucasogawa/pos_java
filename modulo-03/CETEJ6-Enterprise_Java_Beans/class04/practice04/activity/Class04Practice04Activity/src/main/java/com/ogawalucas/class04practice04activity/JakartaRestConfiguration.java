@@ -1,4 +1,4 @@
-package com.ogawalucas.class04practice04;
+package com.ogawalucas.class04practice04activity;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

@@ -1,4 +1,4 @@
-package com.ogawalucas.class04practice04.model;
+package com.ogawalucas.class04practice04activity.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseItem {
+public class ScoreboardItem {
     
-    private Product product;
-    private int quantity;
+    private String name;
+    private int points;
 }
