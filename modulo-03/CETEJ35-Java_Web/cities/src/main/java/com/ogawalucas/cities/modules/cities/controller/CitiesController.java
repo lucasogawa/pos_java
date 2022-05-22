@@ -1,12 +1,14 @@
 package com.ogawalucas.cities.modules.cities.controller;
 
 import com.ogawalucas.cities.modules.cities.dto.CitieDto;
-import com.ogawalucas.cities.modules.cities.entities.Citie;
 import com.ogawalucas.cities.modules.cities.repositories.CitieRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -14,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("cities")
+@RequestMapping
 public class CitiesController {
 
     private Set<CitieDto> cities;
@@ -48,7 +50,7 @@ public class CitiesController {
         return "/cities";
     }
 
-    @PostMapping
+    @PostMapping("create")
     public String create(Model model, @Valid CitieDto dto, BindingResult erros) {
         if (erros.hasErrors()) {
             erros.getFieldErrors()
@@ -63,7 +65,7 @@ public class CitiesController {
 
         repository.save(dto.convertToEntity());
 
-        return "redirect:/cities";
+        return "redirect:/";
     }
 
     @GetMapping("delete")
@@ -72,7 +74,7 @@ public class CitiesController {
 
         citie.ifPresent(repository::delete);
 
-        return "redirect:/cities";
+        return "redirect:/";
     }
 
     @PostMapping("edit")
@@ -85,6 +87,6 @@ public class CitiesController {
             repository.saveAndFlush(actualCitie.get());
         }
 
-        return "redirect:/cities";
+        return "redirect:/";
     }
 }
