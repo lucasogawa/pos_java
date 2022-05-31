@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/delete").hasAuthority("admin")
             .antMatchers("/model").hasAuthority("admin")
             .antMatchers("/edit").hasAuthority("admin")
+            .antMatchers("/show-cookie-list").hasAnyAuthority("list", "admin")
             .anyRequest().denyAll()
             .and()
             .formLogin().loginPage("/login.html").permitAll()
