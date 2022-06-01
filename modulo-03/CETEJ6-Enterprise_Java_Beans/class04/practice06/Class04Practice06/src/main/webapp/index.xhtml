@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Class 04 - Practice 06</title>
+    </h:head>
+    <h:body>
+        <h2>Class 04 - Practice 06</h2>
+        
+        <h:form>
+            Using Queue...
+            <br/>
+            Message: <h:inputText value="#{producerQueueJsf.message}"/>
+            <br/>
+            Quantity: <h:inputText value="#{producerQueueJsf.quantity}"/>
+            <br/>
+            <h:commandButton value="Send" action="#{producerQueueJsf.send()}"/>
+        </h:form>
+        
+        <br/>
+        <br/>
+        <br/>
+        
+        <h:form>
+            Using Topic...
+            <br/>
+            Message: <h:inputText value="#{producerTopicJsf.message}"/>
+            <br/>
+            Quantity: <h:inputText value="#{producerTopicJsf.quantity}"/>
+            <br/>
+            <h:commandButton value="Send" action="#{producerTopicJsf.send()}"/>
+        </h:form>
+    </h:body>
+</html>
+
