@@ -3,4 +3,25 @@
     <string name="nickname">Nickname</string>
     <string name="clear">Clear</string>
     <string name="save">Save</string>
+    <string name="cleaned">Cleaned</string>
+    <string name="empty_fields">Empty fields</string>
+    <string name="travel_car">Travel Car</string>
+    <string name="automobile_type">Automobile Type</string>
+    <string name="car">Car</string>
+    <string name="motorcycle">Motorcycle</string>
+    <string name="pickup">Pickup</string>
+    <string name="truck">Truck</string>
+    <string name="others">Others</string>
+    <string name="brand">Brand</string>
+    <string name="caoa_cherry">Caoa Cherry</string>
+    <string name="hyundai">Hyundai</string>
+    <string name="mercedes_benz">Mercedes Benz</string>
+    <string name="fiat">Fiat</string>
+    <string name="renault">Renault</string>
+    <string name="alfa_romeo">Alfa Romeo</string>
+    <string name="land_rover">Land Rover</string>
+    <string name="volkswagen">Volkswagen</string>
+    <string name="chevrolet">Chevrolet</string>
+    <string name="ford">Ford</string>
+    <string name="toyota">Toyota</string>
 </resources>

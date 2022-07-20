@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="brands">
+        <item>@string/caoa_cherry</item>
+        <item>@string/hyundai</item>
+        <item>@string/mercedes_benz</item>
+        <item>@string/fiat</item>
+        <item>@string/renault</item>
+        <item>@string/alfa_romeo</item>
+        <item>@string/land_rover</item>
+        <item>@string/volkswagen</item>
+        <item>@string/chevrolet</item>
+        <item>@string/ford</item>
+        <item>@string/toyota</item>
+    </string-array>
+</resources>
