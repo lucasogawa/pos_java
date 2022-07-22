@@ -49,24 +49,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="44dp"
                 android:layout_marginLeft="44dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:onClick="clearEditTexts"
                 android:text="@string/clear"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spBrand"
+                app:layout_constraintTop_toBottomOf="@+id/etManufactoringYear"
                 tools:ignore="MissingConstraints" />
 
             <Button
                 android:id="@+id/btSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="44dp"
                 android:layout_marginRight="44dp"
                 android:onClick="validateFields"
                 android:text="@string/save"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spBrand"
+                app:layout_constraintTop_toBottomOf="@+id/etManufactoringYear"
                 tools:ignore="MissingConstraints" />
 
             <CheckBox
@@ -152,6 +152,84 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBrand" />
+
+            <TextView
+                android:id="@+id/tvModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/model"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spBrand" />
+
+            <EditText
+                android:id="@+id/etModel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvModel" />
+
+            <TextView
+                android:id="@+id/tvColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/color"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etModel" />
+
+            <EditText
+                android:id="@+id/etColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvColor" />
+
+            <TextView
+                android:id="@+id/tvManufactoringYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/manufactoring_year"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etColor" />
+
+            <EditText
+                android:id="@+id/etManufactoringYear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvManufactoringYear" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

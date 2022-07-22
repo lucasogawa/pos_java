@@ -24,4 +24,7 @@
     <string name="chevrolet">Chevrolet</string>
     <string name="ford">Ford</string>
     <string name="toyota">Toyota</string>
+    <string name="model">Model</string>
+    <string name="color">Color</string>
+    <string name="manufactoring_year">Manufactoring Year</string>
 </resources>
