@@ -141,7 +141,7 @@ public class AutomobileActivity extends AppCompatActivity {
     }
 
     private boolean validateModel() {
-        if (etModel.getText() == null || etNickname.getText().length() == 0) {
+        if (etModel.getText() == null || etModel.getText().length() == 0) {
             showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etModel.getText()), Toast.LENGTH_LONG);
             etModel.requestFocus();
             return true;
