@@ -1,7 +1,5 @@
 package com.ogawalucas.automobilesupplycontrol;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,7 +10,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class AutomobileActivity extends AppCompatActivity {
+
+    private static final String MSG_EMPTY_FIELDS = "%s: %s.";
 
     private TextView tvNickname;
     private EditText etNickname;
@@ -31,10 +33,10 @@ public class AutomobileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_principal);
+        setContentView(R.layout.activity_automobile);
 
         mapAttributes();
-        setSpinners();
+        setSpinnersOptions();
     }
 
     private void mapAttributes() {
@@ -59,7 +61,7 @@ public class AutomobileActivity extends AppCompatActivity {
         etManufactoringYear = findViewById(R.id.etManufactoringYear);
     }
 
-    private void setSpinners() {
+    private void setSpinnersOptions() {
         var adapter =
                 ArrayAdapter.createFromResource(this, R.array.brands, android.R.layout.simple_spinner_item);
 
@@ -68,7 +70,7 @@ public class AutomobileActivity extends AppCompatActivity {
         spBrand.setAdapter(adapter);
     }
 
-    public void clearEditTexts(View view) {
+    public void clearFields(View view) {
         etNickname.setText(null);
         cbTravelCar.setChecked(false);
         rgAutomobileType.clearCheck();
@@ -79,39 +81,93 @@ public class AutomobileActivity extends AppCompatActivity {
         showToast(getString(R.string.cleaned), Toast.LENGTH_SHORT);
     }
 
-    public void validateFields(View view) {
-        validateNickname();
-        validateModel();
-        validateColor();
+    public void save(View view) {
+        validateFields();
+    }
+
+    private void validateFields() {
+        if (validateNickname()) {
+            return;
+        }
+        if (validateTravelCar()) {
+            return;
+        }
+        if (validateAutomobileType()) {
+            return;
+        }
+        if (validateBrand()) {
+            return;
+        }
+        if (validateModel()) {
+            return;
+        }
+        if (validateColor()) {
+            return;
+        }
+
         validateManufactoringYear();
     }
 
-    private void validateNickname() {
+    private boolean validateNickname() {
         if (etNickname.getText() == null || etNickname.getText().length() == 0) {
-            showToast(String.format("%s: %s.", getString(R.string.empty_fields), tvNickname.getText()), Toast.LENGTH_LONG);
+            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), tvNickname.getText()), Toast.LENGTH_LONG);
             etNickname.requestFocus();
+            return true;
         }
+
+        return false;
     }
 
-    private void validateModel() {
+    private boolean validateTravelCar() {
+        cbTravelCar.isChecked();
+
+        return false;
+    }
+
+    private boolean validateBrand() {
+        spBrand.getSelectedItem();
+
+        return false;
+    }
+
+    private boolean validateAutomobileType() {
+        if (rgAutomobileType.getCheckedRadioButtonId() == -1) {
+            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), tvAutomobileType.getText()), Toast.LENGTH_LONG);
+            rgAutomobileType.requestFocus();
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean validateModel() {
         if (etModel.getText() == null || etNickname.getText().length() == 0) {
-            showToast(String.format("%s: %s.", getString(R.string.empty_fields), etModel.getText()), Toast.LENGTH_LONG);
+            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etModel.getText()), Toast.LENGTH_LONG);
             etModel.requestFocus();
+            return true;
         }
+
+        return false;
     }
 
-    private void validateColor() {
+    private boolean validateColor() {
         if (etColor.getText() == null || etColor.getText().length() == 0) {
-            showToast(String.format("%s: %s.", getString(R.string.empty_fields), etColor.getText()), Toast.LENGTH_LONG);
+            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etColor.getText()), Toast.LENGTH_LONG);
             etColor.requestFocus();
+            return true;
         }
+
+        return false;
     }
 
-    private void validateManufactoringYear() {
+    private boolean validateManufactoringYear() {
         if (etManufactoringYear.getText() == null || etManufactoringYear.getText().length() == 0) {
-            showToast(String.format("%s: %s.", getString(R.string.empty_fields), etManufactoringYear.getText()), Toast.LENGTH_LONG);
+            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etManufactoringYear.getText()), Toast.LENGTH_LONG);
             etManufactoringYear.requestFocus();
+            return true;
         }
+
+        return false;
     }
 
     private void showToast(String message, int duration) {
