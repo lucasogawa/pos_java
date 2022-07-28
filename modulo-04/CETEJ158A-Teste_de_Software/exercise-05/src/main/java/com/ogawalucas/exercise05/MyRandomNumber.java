@@ -1,10 +1,5 @@
 package com.ogawalucas.exercise05;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class MyRandomNumber {
 
     private static final IntervalException EX_INTERVAL =
