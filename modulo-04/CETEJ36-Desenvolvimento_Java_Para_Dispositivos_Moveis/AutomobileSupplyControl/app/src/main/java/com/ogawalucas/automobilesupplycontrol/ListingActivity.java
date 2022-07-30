@@ -29,8 +29,8 @@ public class ListingActivity extends AppCompatActivity {
     }
 
     private void configureListView() {
-        configureOnItemClick();
         setListViewItens();
+        configureOnItemClick();
     }
 
     private void configureOnItemClick() {
@@ -64,6 +64,6 @@ public class ListingActivity extends AppCompatActivity {
             ));
         }
 
-        lvAutomobile.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, automobiles));
+        lvAutomobile.setAdapter(new AutomobileAdapter(this, automobiles));
     }
 }
