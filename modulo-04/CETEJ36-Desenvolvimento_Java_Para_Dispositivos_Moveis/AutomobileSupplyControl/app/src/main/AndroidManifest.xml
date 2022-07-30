@@ -14,13 +14,17 @@
         android:theme="@style/Theme.AutomobileSupplyControl"
         tools:targetApi="31">
         <activity
-            android:name=".AutomobileActivity"
+            android:name=".ListingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".AutomobileActivity"
+            android:exported="true">
         </activity>
     </application>
 

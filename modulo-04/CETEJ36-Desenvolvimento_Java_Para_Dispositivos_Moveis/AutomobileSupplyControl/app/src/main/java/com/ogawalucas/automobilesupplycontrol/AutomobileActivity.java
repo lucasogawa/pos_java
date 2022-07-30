@@ -34,6 +34,7 @@ public class AutomobileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automobile);
+        setTitle(getString(R.string.listing_automobile));
 
         mapAttributes();
         setSpinnersOptions();

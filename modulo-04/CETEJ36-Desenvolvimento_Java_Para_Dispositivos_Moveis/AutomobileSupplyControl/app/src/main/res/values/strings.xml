@@ -27,4 +27,7 @@
     <string name="model">Model</string>
     <string name="color">Color</string>
     <string name="manufactoring_year">Manufactoring Year</string>
+    <string name="type">Type</string>
+    <string name="was_clicked">" was clicked!"</string>
+    <string name="listing_automobile">Listing Automobile</string>
 </resources>
