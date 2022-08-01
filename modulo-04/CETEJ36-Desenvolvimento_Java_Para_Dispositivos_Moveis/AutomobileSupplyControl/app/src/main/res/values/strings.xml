@@ -32,6 +32,6 @@
     <string name="listing_automobile">Listing Automobile</string>
     <string name="objective">This application will help the user to control the fuel supply of the automobile and the amount of kilometers traveled per liter or also called economy.</string>
     <string name="author">Lucas Akio Ogawa</string>
-    <string name="new_key">New</string>
+    <string name="add">Add</string>
     <string name="about">About</string>
 </resources>

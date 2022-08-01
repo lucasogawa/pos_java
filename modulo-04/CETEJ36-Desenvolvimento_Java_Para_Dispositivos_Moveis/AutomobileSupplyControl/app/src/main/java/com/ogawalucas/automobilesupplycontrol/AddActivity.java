@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AutomobileActivity extends AppCompatActivity {
+public class AddActivity extends AppCompatActivity {
 
     private static final String MSG_EMPTY_FIELDS = "%s: %s.";
 
@@ -87,22 +87,22 @@ public class AutomobileActivity extends AppCompatActivity {
     }
 
     private void validateFields() {
-        if (validateNickname()) {
+        if (!validateNickname()) {
             return;
         }
-        if (validateTravelCar()) {
+        if (!validateTravelCar()) {
             return;
         }
-        if (validateAutomobileType()) {
+        if (!validateAutomobileType()) {
             return;
         }
-        if (validateBrand()) {
+        if (!validateBrand()) {
             return;
         }
-        if (validateModel()) {
+        if (!validateModel()) {
             return;
         }
-        if (validateColor()) {
+        if (!validateColor()) {
             return;
         }
 
@@ -135,40 +135,40 @@ public class AutomobileActivity extends AppCompatActivity {
         if (rgAutomobileType.getCheckedRadioButtonId() == -1) {
             showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), tvAutomobileType.getText()), Toast.LENGTH_LONG);
             rgAutomobileType.requestFocus();
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private boolean validateModel() {
         if (etModel.getText() == null || etModel.getText().length() == 0) {
             showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etModel.getText()), Toast.LENGTH_LONG);
             etModel.requestFocus();
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private boolean validateColor() {
         if (etColor.getText() == null || etColor.getText().length() == 0) {
             showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etColor.getText()), Toast.LENGTH_LONG);
             etColor.requestFocus();
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private boolean validateManufactoringYear() {
         if (etManufactoringYear.getText() == null || etManufactoringYear.getText().length() == 0) {
             showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etManufactoringYear.getText()), Toast.LENGTH_LONG);
             etManufactoringYear.requestFocus();
-            return true;
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     private void showToast(String message, int duration) {
