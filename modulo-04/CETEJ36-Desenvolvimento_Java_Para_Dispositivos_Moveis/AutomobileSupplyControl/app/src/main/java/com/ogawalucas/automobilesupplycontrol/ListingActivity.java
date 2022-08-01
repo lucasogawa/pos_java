@@ -3,7 +3,6 @@ package com.ogawalucas.automobilesupplycontrol;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -65,5 +64,9 @@ public class ListingActivity extends AppCompatActivity {
         }
 
         lvAutomobile.setAdapter(new AutomobileAdapter(this, automobiles));
+    }
+
+    public void openAboutActivity(View view) {
+        AboutActivity.open(this);
     }
 }
