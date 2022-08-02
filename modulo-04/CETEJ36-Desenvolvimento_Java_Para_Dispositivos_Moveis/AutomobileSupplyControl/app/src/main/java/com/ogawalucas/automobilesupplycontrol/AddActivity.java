@@ -1,5 +1,7 @@
 package com.ogawalucas.automobilesupplycontrol;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,13 +16,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AddActivity extends AppCompatActivity {
 
+    public static final String KEY_NICKNAME = "NICKNAME";
+    public static final String KEY_TRAVEL_CAR = "TRAVEL_CAR";
+    public static final String KEY_TYPE = "TYPE";
+    public static final String KEY_BRAND = "BRAND";
+    public static final String KEY_MODEL = "MODEL";
+    public static final String KEY_COLOR = "COLOR";
+    public static final String KEY_MANUFACTORING_YEAR = "MANUFACTORING_YEAR";
+
     private static final String MSG_EMPTY_FIELDS = "%s: %s.";
 
     private TextView tvNickname;
     private EditText etNickname;
     private CheckBox cbTravelCar;
-    private TextView tvAutomobileType;
-    private RadioGroup rgAutomobileType;
+    private TextView tvType;
+    private RadioGroup rgType;
     private TextView tvBrand;
     private Spinner spBrand;
     private TextView tvModel;
@@ -30,10 +40,16 @@ public class AddActivity extends AppCompatActivity {
     private TextView tvManufactoringYear;
     private EditText etManufactoringYear;
 
+    public static void open(AppCompatActivity activity) {
+        var intent = new Intent(activity, AddActivity.class);
+
+        activity.startActivityForResult(intent, 1);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_automobile);
+        setContentView(R.layout.activity_add);
         setTitle(getString(R.string.listing_automobile));
 
         mapAttributes();
@@ -46,8 +62,8 @@ public class AddActivity extends AppCompatActivity {
 
         cbTravelCar = findViewById(R.id.cbTravelCar);
 
-        tvAutomobileType = findViewById(R.id.tvAutomobileCar);
-        rgAutomobileType = findViewById(R.id.rgAutomobileCar);
+        tvType = findViewById(R.id.tvAutomobileCar);
+        rgType = findViewById(R.id.rgAutomobileCar);
 
         tvBrand = findViewById(R.id.tvBrand);
         spBrand = findViewById(R.id.spBrand);
@@ -74,7 +90,7 @@ public class AddActivity extends AppCompatActivity {
     public void clearFields(View view) {
         etNickname.setText(null);
         cbTravelCar.setChecked(false);
-        rgAutomobileType.clearCheck();
+        rgType.clearCheck();
         etModel.setText(null);
         etColor.setText(null);
         etManufactoringYear.setText(null);
@@ -83,65 +99,40 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public void save(View view) {
-        validateFields();
+        if (isFieldsValid()) {
+            sendDataInActivityResult();
+        }
     }
 
-    private void validateFields() {
-        if (!validateNickname()) {
-            return;
-        }
-        if (!validateTravelCar()) {
-            return;
-        }
-        if (!validateAutomobileType()) {
-            return;
-        }
-        if (!validateBrand()) {
-            return;
-        }
-        if (!validateModel()) {
-            return;
-        }
-        if (!validateColor()) {
-            return;
-        }
-
-        validateManufactoringYear();
+    private boolean isFieldsValid() {
+        return isNicknameValid()
+            && isAutomobileTypeValid()
+            && isModelValid()
+            && isColorValid()
+            && isManufactoringYearValid();
     }
 
-    private boolean validateNickname() {
+    private boolean isNicknameValid() {
         if (etNickname.getText() == null || etNickname.getText().length() == 0) {
             showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), tvNickname.getText()), Toast.LENGTH_LONG);
             etNickname.requestFocus();
-            return true;
-        }
-
-        return false;
-    }
-
-    private boolean validateTravelCar() {
-        cbTravelCar.isChecked();
-
-        return false;
-    }
-
-    private boolean validateBrand() {
-        spBrand.getSelectedItem();
-
-        return false;
-    }
-
-    private boolean validateAutomobileType() {
-        if (rgAutomobileType.getCheckedRadioButtonId() == -1) {
-            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), tvAutomobileType.getText()), Toast.LENGTH_LONG);
-            rgAutomobileType.requestFocus();
             return false;
         }
 
         return true;
     }
 
-    private boolean validateModel() {
+    private boolean isAutomobileTypeValid() {
+        if (rgType.getCheckedRadioButtonId() == -1) {
+            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), tvType.getText()), Toast.LENGTH_LONG);
+            rgType.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isModelValid() {
         if (etModel.getText() == null || etModel.getText().length() == 0) {
             showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etModel.getText()), Toast.LENGTH_LONG);
             etModel.requestFocus();
@@ -151,7 +142,7 @@ public class AddActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateColor() {
+    private boolean isColorValid() {
         if (etColor.getText() == null || etColor.getText().length() == 0) {
             showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etColor.getText()), Toast.LENGTH_LONG);
             etColor.requestFocus();
@@ -161,9 +152,9 @@ public class AddActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean validateManufactoringYear() {
+    private boolean isManufactoringYearValid() {
         if (etManufactoringYear.getText() == null || etManufactoringYear.getText().length() == 0) {
-            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etManufactoringYear.getText()), Toast.LENGTH_LONG);
+            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), tvManufactoringYear.getText()), Toast.LENGTH_LONG);
             etManufactoringYear.requestFocus();
             return false;
         }
@@ -173,5 +164,51 @@ public class AddActivity extends AppCompatActivity {
 
     private void showToast(String message, int duration) {
         Toast.makeText(this, message, duration).show();
+    }
+
+    private void sendDataInActivityResult() {
+        var intent = new Intent();
+
+        intent.putExtra(KEY_NICKNAME, etNickname.getText().toString());
+        intent.putExtra(KEY_TRAVEL_CAR, cbTravelCar.isChecked());
+        intent.putExtra(KEY_TYPE, getType(rgType.getCheckedRadioButtonId()).toString());
+        intent.putExtra(KEY_BRAND, (String) spBrand.getSelectedItem());
+        intent.putExtra(KEY_MODEL, etModel.getText().toString());
+        intent.putExtra(KEY_COLOR, etColor.getText().toString());
+        intent.putExtra(KEY_MANUFACTORING_YEAR, etManufactoringYear.getText().toString());
+
+        setResult(Activity.RESULT_OK, intent);
+
+        finish();
+    }
+
+    private EType getType(int checkedRadioButtonId) {
+        EType type;
+
+        switch (checkedRadioButtonId) {
+            case R.id.rbCar:
+                type = EType.CAR;
+                break;
+            case R.id.rbMotorcycle:
+                type = EType.MOTORCYCLE;
+                break;
+            case R.id.rbPickup:
+                type = EType.PICKUP;
+                break;
+            case R.id.rbTruck:
+                type = EType.TRUCK;
+                break;
+            default:
+                type = EType.OTHERS;
+                break;
+        }
+
+        return type;
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(Activity.RESULT_CANCELED);
+        finish();
     }
 }

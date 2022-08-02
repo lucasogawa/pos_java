@@ -16,6 +16,7 @@ public class AutomobileAdapter extends BaseAdapter {
 
     private static class AutomobileHolder {
         public TextView tvNickname;
+        public TextView tvTravelCar;
         public TextView tvType;
         public TextView tvBrand;
         public TextView tvModel;
@@ -56,6 +57,7 @@ public class AutomobileAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.listview_automobile, viewGroup, false);
             holder = new AutomobileHolder();
             holder.tvNickname = view.findViewById(R.id.tvLvNickname);
+            holder.tvTravelCar = view.findViewById(R.id.tvLvTravelCar);
             holder.tvType = view.findViewById(R.id.tvLvType);
             holder.tvBrand = view.findViewById(R.id.tvLvBrand);
             holder.tvModel = view.findViewById(R.id.tvLvModel);
@@ -68,7 +70,8 @@ public class AutomobileAdapter extends BaseAdapter {
         }
 
         holder.tvNickname.setText(automobiles.get(i).getNickname());
-        holder.tvType.setText(automobiles.get(i).getType());
+        holder.tvTravelCar.setText(automobiles.get(i).toStringTravelCal());
+        holder.tvType.setText(automobiles.get(i).getType().toString());
         holder.tvBrand.setText(automobiles.get(i).getBrand());
         holder.tvModel.setText(automobiles.get(i).getModel());
         holder.tvColor.setText(automobiles.get(i).getColor());

@@ -1,5 +1,7 @@
 package com.ogawalucas.automobilesupplycontrol;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 public class ListingActivity extends AppCompatActivity {
 
     private ListView lvAutomobile;
+    private AutomobileAdapter automobileAdapter;
+    private ArrayList<Automobile> automobiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +32,8 @@ public class ListingActivity extends AppCompatActivity {
     }
 
     private void configureListView() {
-        setListViewItens();
         configureOnItemClick();
+        setListViewItens();
     }
 
     private void configureOnItemClick() {
@@ -44,29 +48,41 @@ public class ListingActivity extends AppCompatActivity {
     }
 
     private void setListViewItens() {
-        var automobiles = new ArrayList<Automobile>();
-        var nicknames = getResources().getStringArray(R.array.nicknames);
-        var types = getResources().getStringArray(R.array.types);
-        var brands = getResources().getStringArray(R.array.brands);
-        var models = getResources().getStringArray(R.array.models);
-        var colors = getResources().getStringArray(R.array.colors);
-        var manufactoringYears = getResources().getStringArray(R.array.manufactoringYears);
+        automobiles = new ArrayList<>();
 
-        for (int cont = 0; cont < nicknames.length; cont++){
-            automobiles.add(new Automobile(
-                nicknames[cont],
-                types[cont],
-                brands[cont],
-                models[cont],
-                colors[cont],
-                manufactoringYears[cont]
-            ));
-        }
+        automobileAdapter = new AutomobileAdapter(this, automobiles);
 
-        lvAutomobile.setAdapter(new AutomobileAdapter(this, automobiles));
+        lvAutomobile.setAdapter(automobileAdapter);
+    }
+
+    public void openAddActivity(View view) {
+        AddActivity.open(this);
     }
 
     public void openAboutActivity(View view) {
         AboutActivity.open(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            addAutomobile(data.getExtras());
+        }
+    }
+
+    private void addAutomobile(Bundle bundle) {
+        automobiles.add(new Automobile(
+            bundle.getString(AddActivity.KEY_NICKNAME),
+            bundle.getBoolean(AddActivity.KEY_TRAVEL_CAR),
+            EType.valueOf(bundle.getString(AddActivity.KEY_TYPE)),
+            bundle.getString(AddActivity.KEY_BRAND),
+            bundle.getString(AddActivity.KEY_MODEL),
+            bundle.getString(AddActivity.KEY_COLOR),
+            bundle.getString(AddActivity.KEY_MANUFACTORING_YEAR)
+        ));
+
+        automobileAdapter.notifyDataSetChanged();
     }
 }

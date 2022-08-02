@@ -3,7 +3,8 @@ package com.ogawalucas.automobilesupplycontrol;
 public class Automobile {
 
     private String nickname;
-    private String type;
+    private boolean travel;
+    private EType type;
     private String brand;
     private String model;
     private String color;
@@ -13,8 +14,17 @@ public class Automobile {
 
     }
 
-    public Automobile(String nickname, String type, String brand, String model, String color, String manufactoringYear) {
+    public Automobile(
+        String nickname,
+        boolean travel,
+        EType type,
+        String brand,
+        String model,
+        String color,
+        String manufactoringYear
+    ) {
         this.nickname = nickname;
+        this.travel = travel;
         this.type = type;
         this.brand = brand;
         this.model = model;
@@ -26,7 +36,11 @@ public class Automobile {
         return nickname;
     }
 
-    public String getType() {
+    public boolean isTravel() {
+        return travel;
+    }
+
+    public EType getType() {
         return type;
     }
 
@@ -50,7 +64,11 @@ public class Automobile {
         this.nickname = nickname;
     }
 
-    public void setType(String type) {
+    public void setTravel(boolean travel) {
+        this.travel = travel;
+    }
+
+    public void setType(EType type) {
         this.type = type;
     }
 
@@ -73,8 +91,14 @@ public class Automobile {
     @Override
     public String toString() {
         return String.format(
-            "%s - %s - %s - %s - %s - %s",
-            this.nickname, this.type, this.brand, this.model, this.color, this.manufactoringYear
+            "%s - %s - %s - %s - %s - %s - %s",
+            this.nickname, toStringTravelCal(), this.type, this.brand, this.model, this.color, this.manufactoringYear
         );
+    }
+
+    public String toStringTravelCal() {
+        return this.travel
+            ? "Travel Car"
+            : "Not Travel Car";
     }
 }
