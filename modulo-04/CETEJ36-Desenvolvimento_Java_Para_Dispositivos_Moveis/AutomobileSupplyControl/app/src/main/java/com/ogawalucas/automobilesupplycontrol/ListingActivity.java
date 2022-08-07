@@ -3,6 +3,9 @@ package com.ogawalucas.automobilesupplycontrol;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -55,11 +58,34 @@ public class ListingActivity extends AppCompatActivity {
         lvAutomobile.setAdapter(automobileAdapter);
     }
 
-    public void openAddActivity(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.listing_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.miAdd:
+                openAddActivity();
+                return true;
+
+            case R.id.miAbout:
+                openAboutActivity();
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    public void openAddActivity() {
         AddActivity.open(this);
     }
 
-    public void openAboutActivity(View view) {
+    public void openAboutActivity() {
         AboutActivity.open(this);
     }
 

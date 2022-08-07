@@ -43,32 +43,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvNickname"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-            <Button
-                android:id="@+id/btClear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="44dp"
-                android:layout_marginLeft="44dp"
-                android:layout_marginTop="16dp"
-                android:onClick="clearFields"
-                android:text="@string/clear"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etManufactoringYear"
-                tools:ignore="MissingConstraints" />
-
-            <Button
-                android:id="@+id/btSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="44dp"
-                android:layout_marginRight="44dp"
-                android:onClick="save"
-                android:text="@string/save"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etManufactoringYear"
-                tools:ignore="MissingConstraints" />
-
             <CheckBox
                 android:id="@+id/cbTravelCar"
                 android:layout_width="wrap_content"

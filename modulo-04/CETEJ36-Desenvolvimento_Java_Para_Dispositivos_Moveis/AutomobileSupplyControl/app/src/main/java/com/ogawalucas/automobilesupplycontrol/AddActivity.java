@@ -3,7 +3,8 @@ package com.ogawalucas.automobilesupplycontrol;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -60,7 +61,7 @@ public class AddActivity extends AppCompatActivity {
     private void setActionBar() {
         var actionBar = getSupportActionBar();
 
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -89,14 +90,43 @@ public class AddActivity extends AppCompatActivity {
 
     private void setSpinnersOptions() {
         var adapter =
-                ArrayAdapter.createFromResource(this, R.array.brands, android.R.layout.simple_spinner_item);
+            ArrayAdapter.createFromResource(this, R.array.brands, android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spBrand.setAdapter(adapter);
     }
 
-    public void clearFields(View view) {
+    @Override
+    public void onBackPressed() {
+        setResult(Activity.RESULT_CANCELED);
+        finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.miClear:
+                clearFields();
+                return true;
+
+            case R.id.miSave:
+                save();
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    public void clearFields() {
         etNickname.setText(null);
         cbTravelCar.setChecked(false);
         rgType.clearCheck();
@@ -107,7 +137,7 @@ public class AddActivity extends AppCompatActivity {
         showToast(getString(R.string.cleaned), Toast.LENGTH_SHORT);
     }
 
-    public void save(View view) {
+    public void save() {
         if (isFieldsValid()) {
             sendDataInActivityResult();
         }
@@ -213,11 +243,5 @@ public class AddActivity extends AppCompatActivity {
         }
 
         return type;
-    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(Activity.RESULT_CANCELED);
-        finish();
     }
 }
