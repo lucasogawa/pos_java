@@ -52,8 +52,17 @@ public class AddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
         setTitle(getString(R.string.listing_automobile));
 
+        setActionBar();
         mapAttributes();
         setSpinnersOptions();
+    }
+
+    private void setActionBar() {
+        var actionBar = getSupportActionBar();
+
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void mapAttributes() {
