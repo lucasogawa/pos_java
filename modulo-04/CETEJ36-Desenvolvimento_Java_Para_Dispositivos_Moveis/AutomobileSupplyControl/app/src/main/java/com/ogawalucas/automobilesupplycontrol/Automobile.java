@@ -101,4 +101,22 @@ public class Automobile {
             ? "Travel Car"
             : "Not Travel Car";
     }
+
+    public void edit(
+        String nickname,
+        boolean travel,
+        EType type,
+        String brand,
+        String model,
+        String color,
+        String manufactoringYear
+    ) {
+        this.nickname = nickname;
+        this.travel = travel;
+        this.type = type;
+        this.brand = brand;
+        this.model = model;
+        this.color = color;
+        this.manufactoringYear = manufactoringYear;
+    }
 }

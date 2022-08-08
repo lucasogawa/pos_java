@@ -17,6 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AddActivity extends AppCompatActivity {
 
+    public static final int KEY_ADD_MODE = 1;
+    public static final int KEY_EDIT_MODE = 2;
+
+    public static final String KEY_MODE = "MODE";
     public static final String KEY_NICKNAME = "NICKNAME";
     public static final String KEY_TRAVEL_CAR = "TRAVEL_CAR";
     public static final String KEY_TYPE = "TYPE";
@@ -41,21 +45,101 @@ public class AddActivity extends AppCompatActivity {
     private TextView tvManufactoringYear;
     private EditText etManufactoringYear;
 
-    public static void open(AppCompatActivity activity) {
+    public static void openAddMode(AppCompatActivity activity) {
         var intent = new Intent(activity, AddActivity.class);
 
-        activity.startActivityForResult(intent, 1);
+        intent.putExtra(KEY_MODE, KEY_ADD_MODE);
+
+        activity.startActivityForResult(intent, KEY_ADD_MODE);
+    }
+
+    public static void openEditMode(AppCompatActivity activity, Automobile automobile) {
+        var intent = new Intent(activity, AddActivity.class);
+
+        intent.putExtra(KEY_MODE, KEY_EDIT_MODE);
+
+        intent.putExtra(KEY_NICKNAME, automobile.getNickname());
+        intent.putExtra(KEY_TRAVEL_CAR, automobile.isTravel());
+        intent.putExtra(KEY_TYPE, automobile.getType().name());
+        intent.putExtra(KEY_BRAND, automobile.getBrand());
+        intent.putExtra(KEY_MODEL, automobile.getModel());
+        intent.putExtra(KEY_COLOR, automobile.getColor());
+        intent.putExtra(KEY_MANUFACTORING_YEAR, automobile.getManufactoringYear());
+
+        activity.startActivityForResult(intent, KEY_EDIT_MODE);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-        setTitle(getString(R.string.listing_automobile));
 
         setActionBar();
         mapAttributes();
         setSpinnersOptions();
+
+        initializeData();
+    }
+
+    private void initializeData() {
+        var bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            if (bundle.getInt(KEY_MODE, KEY_ADD_MODE) == KEY_ADD_MODE) {
+                setTitle(getString(R.string.add_automobile));
+            } else {
+                setTitle(getString(R.string.edit_automobile));
+
+                etNickname.setText(bundle.getString(KEY_NICKNAME));
+                cbTravelCar.setChecked(bundle.getBoolean(KEY_TRAVEL_CAR));
+                rgType.check(getTypeId(EType.valueOf(bundle.getString(KEY_TYPE))));
+                spBrand.setSelection(getBrandId(bundle.getString(KEY_BRAND)));
+                etModel.setText(bundle.getString(KEY_MODEL));
+                etColor.setText(bundle.getString(KEY_COLOR));
+                etManufactoringYear.setText(bundle.getString(KEY_MANUFACTORING_YEAR));
+            }
+        }
+    }
+
+    private int getTypeId(EType type) {
+        var rbId = R.id.rbCar;
+
+        switch (type) {
+            case MOTORCYCLE:
+                rbId = R.id.rbMotorcycle;
+                break;
+
+            case PICKUP:
+                rbId = R.id.rbPickup;
+                break;
+
+            case TRUCK:
+                rbId = R.id.rbTruck;
+                break;
+
+            case OTHERS:
+                rbId = R.id.rbOthers;
+                break;
+
+            default:
+                break;
+        }
+
+        return rbId;
+    }
+
+    private int getBrandId(String brand) {
+        int pos = 0;
+
+        var brands = getResources().getStringArray(R.array.brands);
+
+        for (int i = 0; i < brands.length; i++) {
+            if (brands[i].equals(brand)) {
+                pos = i;
+            }
+        }
+
+        return pos;
     }
 
     private void setActionBar() {
@@ -99,6 +183,10 @@ public class AddActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        cancel();
+    }
+
+    private void cancel(){
         setResult(Activity.RESULT_CANCELED);
         finish();
     }
@@ -119,6 +207,10 @@ public class AddActivity extends AppCompatActivity {
 
             case R.id.miSave:
                 save();
+                return true;
+
+            case android.R.id.home:
+                cancel();
                 return true;
 
             default:
@@ -210,7 +302,7 @@ public class AddActivity extends AppCompatActivity {
 
         intent.putExtra(KEY_NICKNAME, etNickname.getText().toString());
         intent.putExtra(KEY_TRAVEL_CAR, cbTravelCar.isChecked());
-        intent.putExtra(KEY_TYPE, getType(rgType.getCheckedRadioButtonId()).toString());
+        intent.putExtra(KEY_TYPE, getType(rgType.getCheckedRadioButtonId()).name());
         intent.putExtra(KEY_BRAND, (String) spBrand.getSelectedItem());
         intent.putExtra(KEY_MODEL, etModel.getText().toString());
         intent.putExtra(KEY_COLOR, etColor.getText().toString());

@@ -34,4 +34,8 @@
     <string name="author">Lucas Akio Ogawa</string>
     <string name="add">Add</string>
     <string name="about">About</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="add_automobile">Add Automobile</string>
+    <string name="edit_automobile">Edit Automobile</string>
 </resources>
