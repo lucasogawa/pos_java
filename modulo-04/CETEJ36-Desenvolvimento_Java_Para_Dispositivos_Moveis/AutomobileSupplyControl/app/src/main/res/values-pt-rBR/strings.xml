@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Controle de Abastecimentos de Automóveis</string>
+    <string name="nickname">Apelido</string>
+    <string name="clear">Limpar</string>
+    <string name="save">Salvar</string>
+    <string name="cleaned">Limpo</string>
+    <string name="empty_fields">Campos vazios</string>
+    <string name="travel_car">Carro de viagem</string>
+    <string name="automobile_type">Tipo de Automóvel</string>
+    <string name="car">Carro</string>
+    <string name="motorcycle">Moto</string>
+    <string name="pickup">Caminhonete</string>
+    <string name="truck">Caminhão</string>
+    <string name="others">Outros</string>
+    <string name="brand">Marca</string>
+    <string name="model">Modelo</string>
+    <string name="color">Cor</string>
+    <string name="manufactoring_year">Ano de Fabricação</string>
+    <string name="type">Tipo</string>
+    <string name="was_clicked">" foi clicado"</string>
+    <string name="listing_automobile">Listagem de Automóveis</string>
+    <string name="objective">Este aplicativo ajudará o usuário a controlar o abastecimento de combustível do automóvel e a quantidade de quilômetros percorridos por litro ou também chamado de economia.</string>
+    <string name="add">Adicionar</string>
+    <string name="about">Sobre</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Deletar</string>
+    <string name="add_automobile">Adicionar Automóvel</string>
+    <string name="edit_automobile">Editar Automóvel</string>
+    <string name="city_car">Carro de cidade</string>
+</resources>

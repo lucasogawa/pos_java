@@ -1,91 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="nicknames">
-        <item>"Nickname 01"</item>
-        <item>"Nickname 02"</item>
-        <item>"Nickname 03"</item>
-        <item>"Nickname 04"</item>
-        <item>"Nickname 05"</item>
-        <item>"Nickname 06"</item>
-        <item>"Nickname 07"</item>
-        <item>"Nickname 08"</item>
-        <item>"Nickname 09"</item>
-        <item>"Nickname 10"</item>
-    </string-array>
-
-    <string-array name="types">
-        <item>"Type 01"</item>
-        <item>"Type 02"</item>
-        <item>"Type 03"</item>
-        <item>"Type 04"</item>
-        <item>"Type 05"</item>
-        <item>"Type 06"</item>
-        <item>"Type 07"</item>
-        <item>"Type 08"</item>
-        <item>"Type 09"</item>
-        <item>"Type 10"</item>
-    </string-array>
-
     <string-array name="brands">
-<!--        <item>@string/caoa_cherry</item>-->
-<!--        <item>@string/hyundai</item>-->
-<!--        <item>@string/mercedes_benz</item>-->
-<!--        <item>@string/fiat</item>-->
-<!--        <item>@string/renault</item>-->
-<!--        <item>@string/alfa_romeo</item>-->
-<!--        <item>@string/land_rover</item>-->
-<!--        <item>@string/volkswagen</item>-->
-<!--        <item>@string/chevrolet</item>-->
-<!--        <item>@string/ford</item>-->
-<!--        <item>@string/toyota</item>-->
-        <item>"Brand 01"</item>
-        <item>"Brand 02"</item>
-        <item>"Brand 03"</item>
-        <item>"Brand 04"</item>
-        <item>"Brand 05"</item>
-        <item>"Brand 06"</item>
-        <item>"Brand 07"</item>
-        <item>"Brand 08"</item>
-        <item>"Brand 09"</item>
-        <item>"Brand 10"</item>
-    </string-array>
-
-    <string-array name="models">
-        <item>"Model 01"</item>
-        <item>"Model 02"</item>
-        <item>"Model 03"</item>
-        <item>"Model 04"</item>
-        <item>"Model 05"</item>
-        <item>"Model 06"</item>
-        <item>"Model 07"</item>
-        <item>"Model 08"</item>
-        <item>"Model 09"</item>
-        <item>"Model 10"</item>
-    </string-array>
-
-    <string-array name="colors">
-        <item>"Color 01"</item>
-        <item>"Color 02"</item>
-        <item>"Color 03"</item>
-        <item>"Color 04"</item>
-        <item>"Color 05"</item>
-        <item>"Color 06"</item>
-        <item>"Color 07"</item>
-        <item>"Color 08"</item>
-        <item>"Color 09"</item>
-        <item>"Color 10"</item>
-    </string-array>
-
-    <string-array name="manufactoringYears">
-        <item>"Manufactoring Year 01"</item>
-        <item>"Manufactoring Year 02"</item>
-        <item>"Manufactoring Year 03"</item>
-        <item>"Manufactoring Year 04"</item>
-        <item>"Manufactoring Year 05"</item>
-        <item>"Manufactoring Year 06"</item>
-        <item>"Manufactoring Year 07"</item>
-        <item>"Manufactoring Year 08"</item>
-        <item>"Manufactoring Year 09"</item>
-        <item>"Manufactoring Year 10"</item>
+        <item>@string/caoa_cherry</item>
+        <item>@string/hyundai</item>
+        <item>@string/mercedes_benz</item>
+        <item>@string/fiat</item>
+        <item>@string/renault</item>
+        <item>@string/alfa_romeo</item>
+        <item>@string/land_rover</item>
+        <item>@string/volkswagen</item>
+        <item>@string/chevrolet</item>
+        <item>@string/ford</item>
+        <item>@string/toyota</item>
     </string-array>
 </resources>

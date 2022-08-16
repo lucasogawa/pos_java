@@ -1,5 +1,7 @@
 package com.ogawalucas.automobilesupplycontrol;
 
+import android.content.Context;
+
 public class Automobile {
 
     private String nickname;
@@ -88,18 +90,10 @@ public class Automobile {
         this.manufactoringYear = manufactoringYear;
     }
 
-    @Override
-    public String toString() {
-        return String.format(
-            "%s - %s - %s - %s - %s - %s - %s",
-            this.nickname, toStringTravelCal(), this.type, this.brand, this.model, this.color, this.manufactoringYear
-        );
-    }
-
-    public String toStringTravelCal() {
+    public String toStringTravelCal(Context context) {
         return this.travel
-            ? "Travel Car"
-            : "Not Travel Car";
+            ? context.getString(R.string.travel_car)
+            : context.getString(R.string.city_car);
     }
 
     public void edit(

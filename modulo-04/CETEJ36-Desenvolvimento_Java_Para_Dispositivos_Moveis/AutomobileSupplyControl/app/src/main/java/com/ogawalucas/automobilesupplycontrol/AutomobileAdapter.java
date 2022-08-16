@@ -70,8 +70,8 @@ public class AutomobileAdapter extends BaseAdapter {
         }
 
         holder.tvNickname.setText(automobiles.get(i).getNickname());
-        holder.tvTravelCar.setText(automobiles.get(i).toStringTravelCal());
-        holder.tvType.setText(automobiles.get(i).getType().toString());
+        holder.tvTravelCar.setText(automobiles.get(i).toStringTravelCal(context));
+        holder.tvType.setText(automobiles.get(i).getType().toString(context));
         holder.tvBrand.setText(automobiles.get(i).getBrand());
         holder.tvModel.setText(automobiles.get(i).getModel());
         holder.tvColor.setText(automobiles.get(i).getColor());
