@@ -8,6 +8,18 @@
         android:title="@string/add"
         android:visible="true"
         app:showAsAction="ifRoom" />
+
+    <group
+        android:id="@+id/gSorterByNickname"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/miAsc"
+            android:title="@string/asc" />
+        <item
+            android:id="@+id/miDesc"
+            android:title="@string/desc" />
+    </group>
+
     <item
         android:id="@+id/miAbout"
         android:title="@string/about"

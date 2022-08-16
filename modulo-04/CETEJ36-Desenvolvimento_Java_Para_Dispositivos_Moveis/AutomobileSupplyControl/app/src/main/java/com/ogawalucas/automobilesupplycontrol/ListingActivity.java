@@ -1,6 +1,7 @@
 package com.ogawalucas.automobilesupplycontrol;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,23 +9,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ListingActivity extends AppCompatActivity {
 
-    private ListView lvAutomobile;
-    private AutomobileAdapter automobileAdapter;
-    private ArrayList<Automobile> automobiles;
+    private static final String KEY_ARCHIVE = "com.ogawalucas.sharedpreferences.PREFERENCES";
+    private static final String KEY_SORT_BY_NICKNAME = "SORT_BY_NICKNAME";
+
+    private String sortByNickname = ESortBy.ASC.name();
 
     private ActionMode actionMode;
     private int selectedPosition = -1;
     private View selectedView;
     private ActionMode.Callback actionModeCallback;
+
+    private ListView lvAutomobile;
+    private AutomobileAdapter automobileAdapter;
+    private ArrayList<Automobile> automobiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +40,7 @@ public class ListingActivity extends AppCompatActivity {
 
         mapAttributes();
         configureListView();
+        loadPreferences();
     }
 
     private void mapAttributes() {
@@ -134,9 +142,53 @@ public class ListingActivity extends AppCompatActivity {
         lvAutomobile.setAdapter(automobileAdapter);
     }
 
+    private void loadPreferences() {
+        loadPreferenceSortByNickname();
+    }
+
+    private void loadPreferenceSortByNickname() {
+        sortByNickname = getSharedPreferences(KEY_ARCHIVE, Context.MODE_PRIVATE)
+            .getString(KEY_SORT_BY_NICKNAME, sortByNickname);
+
+        sortByNickname();
+    }
+
+    private void sortByNickname() {
+        Collections.sort(automobiles, getSortByNicknameComparator());
+
+        automobileAdapter.notifyDataSetChanged();
+    }
+
+    private Comparator<Automobile> getSortByNicknameComparator() {
+        return (automobile1, automobile2) ->
+            ESortBy.valueOf(sortByNickname).getValue() * automobile1.getNickname().compareTo(automobile2.getNickname());
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.listing_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item;
+
+        switch (ESortBy.valueOf(sortByNickname)) {
+            case ASC:
+                item = menu.findItem(R.id.miAsc);
+                break;
+
+            case DESC:
+                item = menu.findItem(R.id.miDesc);
+                break;
+
+            default:
+                return false;
+        }
+
+        item.setChecked(true);
 
         return true;
     }
@@ -148,6 +200,14 @@ public class ListingActivity extends AppCompatActivity {
                 openAddActivity();
                 return true;
 
+            case R.id.miAsc:
+                savePreferenceSortByNickname(ESortBy.ASC.name());
+                return true;
+
+            case R.id.miDesc:
+                savePreferenceSortByNickname(ESortBy.DESC.name());
+                return true;
+
             case R.id.miAbout:
                 openAboutActivity();
                 return true;
@@ -155,6 +215,17 @@ public class ListingActivity extends AppCompatActivity {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    private void savePreferenceSortByNickname(String newValue) {
+        var editor = getSharedPreferences(KEY_ARCHIVE, Context.MODE_PRIVATE).edit();
+
+        editor.putString(KEY_SORT_BY_NICKNAME, newValue);
+        editor.commit();
+
+        sortByNickname = newValue;
+
+        sortByNickname();
     }
 
     public void openAddActivity() {
@@ -176,7 +247,7 @@ public class ListingActivity extends AppCompatActivity {
                 editAutomobile(data.getExtras());
             }
 
-            automobileAdapter.notifyDataSetChanged();
+            sortByNickname();
         }
     }
 

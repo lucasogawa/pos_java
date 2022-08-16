@@ -39,4 +39,6 @@
     <string name="add_automobile">Add Automobile</string>
     <string name="edit_automobile">Edit Automobile</string>
     <string name="city_car">City Car</string>
+    <string name="asc" translatable="false">Asc</string>
+    <string name="desc" translatable="false">Desc</string>
 </resources>
