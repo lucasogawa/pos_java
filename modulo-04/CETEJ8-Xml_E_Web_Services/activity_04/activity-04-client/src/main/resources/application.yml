@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+
+services:
+  sum: http://localhost:8080
