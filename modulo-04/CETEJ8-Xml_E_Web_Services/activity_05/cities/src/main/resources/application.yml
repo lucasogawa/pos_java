@@ -1,0 +1,6 @@
+spring:
+  freemarker:
+    suffix: .ftl
+
+services:
+  city: http://maventest.herokuapp.com/mavenTest-1.0-SNAPSHOT/webresources
