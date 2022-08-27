@@ -17,40 +17,29 @@
             <p>A CRUD OF CLIENTS</p>
         </div>
 
-        <#if client??>
-            <form action="/clients/update" method="POST">
-                <input type="hidden" name="actualCode" value="${(client.code())!}"/>
-                <input type="hidden" name="actualName" value="${(client.name())!}"/>
-                <input type="hidden" name="actualCity" value="${(client.city())!}"/>
-        <#else>
-            <form action="/clients" method="POST">
-        </#if>
-                <div class="form-group">
-                    <label for="name">Code:</label>
-                    <input value="${(client.code())!}" name="code" type="number" class="form-control" placeholder="Code"
-                           id="name">
-                </div>
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input value="${(client.name())!}" name="name" type="text" class="form-control" placeholder="Name"
-                           id="name">
-                </div>
-                <div class="form-group">
-                    <label for="city">City:</label>
-                    </br>
-                    <select id="city" name="city">
-                        <#list cities as city>
-                            <option <#if client?? && city.nome() == client.city()> selected="selected"</#if>>${city.nome()}</option>
-                        </#list>
-                    </select>
-                </div>
+        <form action="/clients" method="POST">
+            <div class="form-group">
+                <label for="name">Code:</label>
+                <input value="${(client.code())!}" name="code" type="number" class="form-control" placeholder="Code"
+                       id="name">
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input value="${(client.name())!}" name="name" type="text" class="form-control" placeholder="Name"
+                       id="name">
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                </br>
+                <select id="city" name="city">
+                    <#list cities as city>
+                        <option <#if client?? && city.nome() == client.city()> selected="selected"</#if>>${city.nome()}</option>
+                    </#list>
+                </select>
+            </div>
 
-                <#if client??>
-                    <button type="submit" class="btn btn-warning">EDIT</button>
-                <#else>
-                    <button type="submit" class="btn btn-primary">CREATE</button>
-                </#if>
-            </form>
+            <button type="submit" class="btn btn-primary">CREATE</button>
+        </form>
 
         <table class="table table-striped table-hover mt-5">
             <thead class="thead-dark">
@@ -58,7 +47,6 @@
                 <th>Code</th>
                 <th>Name</th>
                 <th>City</th>
-                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -67,12 +55,6 @@
                         <td>${client.code()}</td>
                         <td>${client.name()}</td>
                         <td>${client.city()}</td>
-                        <td>
-                            <div class="d-flex d-justify-content-center">
-                                <a class="btn btn-warning mr-3" href="/clients/model?code=${client.code()}">EDIT</a>
-                                <a class="btn btn-danger" href="/clients/delete?code=${client.code()}">DELETE</a>
-                            </div>
-                        </td>
                     </tr>
                 </#list>
             </tbody>

@@ -43,8 +43,8 @@ public class ClientService {
         clients.removeIf(client -> client.code() == code);
     }
 
-    public void update(int actualCode, Client client) {
-        deleteByCode(actualCode);
+    public void update(Client client) {
+        deleteByCode(client.code());
         create(client);
     }
 }
