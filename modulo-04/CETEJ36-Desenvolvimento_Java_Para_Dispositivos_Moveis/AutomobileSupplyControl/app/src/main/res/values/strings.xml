@@ -41,4 +41,8 @@
     <string name="city_car">City Car</string>
     <string name="asc" translatable="false">Asc</string>
     <string name="desc" translatable="false">Desc</string>
+    <string name="do_you_really_want_to_delete">Do you really want to delete</string>
+    <string name="confirm">Confirm</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

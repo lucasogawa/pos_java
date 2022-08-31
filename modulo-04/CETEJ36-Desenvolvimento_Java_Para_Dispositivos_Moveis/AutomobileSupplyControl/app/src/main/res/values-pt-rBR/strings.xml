@@ -28,4 +28,8 @@
     <string name="add_automobile">Adicionar Automóvel</string>
     <string name="edit_automobile">Editar Automóvel</string>
     <string name="city_car">Carro de cidade</string>
+    <string name="do_you_really_want_to_delete">Você realmente deseja deletar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 </resources>

@@ -2,6 +2,7 @@ package com.ogawalucas.automobilesupplycontrol;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -101,8 +102,16 @@ public class ListingActivity extends AppCompatActivity {
     }
 
     private void deleteAutomobile() {
-        automobiles.remove(selectedPosition);
-        automobileAdapter.notifyDataSetChanged();
+        AlertUtils.showConfirm(
+            this,
+            getString(R.string.do_you_really_want_to_delete) + "\n" + automobiles.get(selectedPosition).getNickname(),
+            (dialog, option) -> {
+                if (option == DialogInterface.BUTTON_POSITIVE) {
+                    automobiles.remove(selectedPosition);
+                    automobileAdapter.notifyDataSetChanged();
+                }
+            }
+        );
     }
 
     private void configureListView() {
