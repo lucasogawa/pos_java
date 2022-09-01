@@ -2,24 +2,33 @@ package com.ogawalucas.automobilesupplycontrol;
 
 import android.content.Context;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Automobile {
 
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
     private String nickname;
+
     private boolean travel;
-    private EType type;
+
+    private String type;
+
     private String brand;
+
     private String model;
+
     private String color;
+
     private String manufactoringYear;
-
-    public Automobile() {
-
-    }
 
     public Automobile(
         String nickname,
         boolean travel,
-        EType type,
+        String type,
         String brand,
         String model,
         String color,
@@ -34,6 +43,14 @@ public class Automobile {
         this.manufactoringYear = manufactoringYear;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -42,7 +59,7 @@ public class Automobile {
         return travel;
     }
 
-    public EType getType() {
+    public String getType() {
         return type;
     }
 
@@ -70,7 +87,7 @@ public class Automobile {
         this.travel = travel;
     }
 
-    public void setType(EType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -99,7 +116,7 @@ public class Automobile {
     public void edit(
         String nickname,
         boolean travel,
-        EType type,
+        String type,
         String brand,
         String model,
         String color,

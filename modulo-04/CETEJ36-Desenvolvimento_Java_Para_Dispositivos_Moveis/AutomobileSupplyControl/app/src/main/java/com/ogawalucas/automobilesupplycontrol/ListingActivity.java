@@ -1,5 +1,9 @@
 package com.ogawalucas.automobilesupplycontrol;
 
+import static com.ogawalucas.automobilesupplycontrol.AddActivity.KEY_ADD_MODE;
+import static com.ogawalucas.automobilesupplycontrol.AddActivity.KEY_EDIT_MODE;
+import static com.ogawalucas.automobilesupplycontrol.AutomobileDatabase.getDatabase;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -98,7 +102,7 @@ public class ListingActivity extends AppCompatActivity {
     }
 
     private void openEditActivity() {
-        AddActivity.openEditMode(this, automobiles.get(selectedPosition));
+        AddActivity.openEditMode(this, automobiles.get(selectedPosition).getId());
     }
 
     private void deleteAutomobile() {
@@ -107,8 +111,8 @@ public class ListingActivity extends AppCompatActivity {
             getString(R.string.do_you_really_want_to_delete) + "\n" + automobiles.get(selectedPosition).getNickname(),
             (dialog, option) -> {
                 if (option == DialogInterface.BUTTON_POSITIVE) {
-                    automobiles.remove(selectedPosition);
-                    automobileAdapter.notifyDataSetChanged();
+                    getDatabase(this).automobileDao().delete(automobiles.get(selectedPosition));
+                    setListViewItens();
                 }
             }
         );
@@ -144,11 +148,13 @@ public class ListingActivity extends AppCompatActivity {
     }
 
     private void setListViewItens() {
-        automobiles = new ArrayList<>();
+        automobiles = new ArrayList<>(getDatabase(this).automobileDao().findAll());
 
         automobileAdapter = new AutomobileAdapter(this, automobiles);
 
         lvAutomobile.setAdapter(automobileAdapter);
+
+        loadPreferenceSortByNickname();
     }
 
     private void loadPreferences() {
@@ -248,39 +254,10 @@ public class ListingActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == AddActivity.KEY_ADD_MODE) {
-                addAutomobile(data.getExtras());
-            } else {
-                editAutomobile(data.getExtras());
-            }
-
-            sortByNickname();
+        if ((requestCode == KEY_ADD_MODE || requestCode == KEY_EDIT_MODE)
+            && resultCode == Activity.RESULT_OK
+        ) {
+            setListViewItens();
         }
-    }
-
-    private void addAutomobile(Bundle bundle) {
-        automobiles.add(new Automobile(
-            bundle.getString(AddActivity.KEY_NICKNAME),
-            bundle.getBoolean(AddActivity.KEY_TRAVEL_CAR),
-            EType.valueOf(bundle.getString(AddActivity.KEY_TYPE)),
-            bundle.getString(AddActivity.KEY_BRAND),
-            bundle.getString(AddActivity.KEY_MODEL),
-            bundle.getString(AddActivity.KEY_COLOR),
-            bundle.getString(AddActivity.KEY_MANUFACTORING_YEAR)
-        ));
-    }
-
-    private void editAutomobile(Bundle bundle) {
-        automobiles.get(selectedPosition).edit(
-            bundle.getString(AddActivity.KEY_NICKNAME),
-            bundle.getBoolean(AddActivity.KEY_TRAVEL_CAR),
-            EType.valueOf(bundle.getString(AddActivity.KEY_TYPE)),
-            bundle.getString(AddActivity.KEY_BRAND),
-            bundle.getString(AddActivity.KEY_MODEL),
-            bundle.getString(AddActivity.KEY_COLOR),
-            bundle.getString(AddActivity.KEY_MANUFACTORING_YEAR)
-        );
     }
 }

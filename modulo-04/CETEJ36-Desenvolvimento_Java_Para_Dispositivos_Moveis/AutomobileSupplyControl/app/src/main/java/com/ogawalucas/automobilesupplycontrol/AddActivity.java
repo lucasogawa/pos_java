@@ -1,5 +1,7 @@
 package com.ogawalucas.automobilesupplycontrol;
 
+import static com.ogawalucas.automobilesupplycontrol.AutomobileDatabase.getDatabase;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,13 +23,7 @@ public class AddActivity extends AppCompatActivity {
     public static final int KEY_EDIT_MODE = 2;
 
     public static final String KEY_MODE = "MODE";
-    public static final String KEY_NICKNAME = "NICKNAME";
-    public static final String KEY_TRAVEL_CAR = "TRAVEL_CAR";
-    public static final String KEY_TYPE = "TYPE";
-    public static final String KEY_BRAND = "BRAND";
-    public static final String KEY_MODEL = "MODEL";
-    public static final String KEY_COLOR = "COLOR";
-    public static final String KEY_MANUFACTORING_YEAR = "MANUFACTORING_YEAR";
+    public static final String KEY_ID = "ID";
 
     private static final String MSG_EMPTY_FIELDS = "%s: %s.";
 
@@ -53,18 +49,11 @@ public class AddActivity extends AppCompatActivity {
         activity.startActivityForResult(intent, KEY_ADD_MODE);
     }
 
-    public static void openEditMode(AppCompatActivity activity, Automobile automobile) {
+    public static void openEditMode(AppCompatActivity activity, long id) {
         var intent = new Intent(activity, AddActivity.class);
 
         intent.putExtra(KEY_MODE, KEY_EDIT_MODE);
-
-        intent.putExtra(KEY_NICKNAME, automobile.getNickname());
-        intent.putExtra(KEY_TRAVEL_CAR, automobile.isTravel());
-        intent.putExtra(KEY_TYPE, automobile.getType().name());
-        intent.putExtra(KEY_BRAND, automobile.getBrand());
-        intent.putExtra(KEY_MODEL, automobile.getModel());
-        intent.putExtra(KEY_COLOR, automobile.getColor());
-        intent.putExtra(KEY_MANUFACTORING_YEAR, automobile.getManufactoringYear());
+        intent.putExtra(KEY_ID, id);
 
         activity.startActivityForResult(intent, KEY_EDIT_MODE);
     }
@@ -90,13 +79,15 @@ public class AddActivity extends AppCompatActivity {
             } else {
                 setTitle(getString(R.string.edit_automobile));
 
-                etNickname.setText(bundle.getString(KEY_NICKNAME));
-                cbTravelCar.setChecked(bundle.getBoolean(KEY_TRAVEL_CAR));
-                rgType.check(getTypeId(EType.valueOf(bundle.getString(KEY_TYPE))));
-                spBrand.setSelection(getBrandId(bundle.getString(KEY_BRAND)));
-                etModel.setText(bundle.getString(KEY_MODEL));
-                etColor.setText(bundle.getString(KEY_COLOR));
-                etManufactoringYear.setText(bundle.getString(KEY_MANUFACTORING_YEAR));
+                var automobile = getDatabase(this).automobileDao().findById(bundle.getLong(KEY_ID));
+
+                etNickname.setText(automobile.getNickname());
+                cbTravelCar.setChecked(automobile.isTravel());
+                rgType.check(getTypeId(EType.valueOf(automobile.getType())));
+                spBrand.setSelection(getBrandId(automobile.getBrand()));
+                etModel.setText(automobile.getModel());
+                etColor.setText(automobile.getColor());
+                etManufactoringYear.setText(automobile.getManufactoringYear());
             }
         }
     }
@@ -231,7 +222,7 @@ public class AddActivity extends AppCompatActivity {
 
     public void save() {
         if (isFieldsValid()) {
-            sendDataInActivityResult();
+            createOrUpdate();
         }
     }
 
@@ -297,19 +288,27 @@ public class AddActivity extends AppCompatActivity {
         Toast.makeText(this, message, duration).show();
     }
 
-    private void sendDataInActivityResult() {
-        var intent = new Intent();
+    private void createOrUpdate() {
+        var bundle = getIntent().getExtras();
+        var database = getDatabase(this);
+        var automobile = new Automobile(
+            etNickname.getText().toString(),
+            cbTravelCar.isChecked(),
+            getType(rgType.getCheckedRadioButtonId()).name(),
+            (String) spBrand.getSelectedItem(),
+            etModel.getText().toString(),
+            etColor.getText().toString(),
+            etManufactoringYear.getText().toString()
+        );
+        automobile.setId(bundle.getLong(KEY_ID));
 
-        intent.putExtra(KEY_NICKNAME, etNickname.getText().toString());
-        intent.putExtra(KEY_TRAVEL_CAR, cbTravelCar.isChecked());
-        intent.putExtra(KEY_TYPE, getType(rgType.getCheckedRadioButtonId()).name());
-        intent.putExtra(KEY_BRAND, (String) spBrand.getSelectedItem());
-        intent.putExtra(KEY_MODEL, etModel.getText().toString());
-        intent.putExtra(KEY_COLOR, etColor.getText().toString());
-        intent.putExtra(KEY_MANUFACTORING_YEAR, etManufactoringYear.getText().toString());
+        if (bundle.getInt(KEY_MODE, KEY_ADD_MODE) == KEY_ADD_MODE) {
+            database.automobileDao().create(automobile);
+        } else {
+            database.automobileDao().update(automobile);
+        }
 
-        setResult(Activity.RESULT_OK, intent);
-
+        setResult(Activity.RESULT_OK, new Intent());
         finish();
     }
 
