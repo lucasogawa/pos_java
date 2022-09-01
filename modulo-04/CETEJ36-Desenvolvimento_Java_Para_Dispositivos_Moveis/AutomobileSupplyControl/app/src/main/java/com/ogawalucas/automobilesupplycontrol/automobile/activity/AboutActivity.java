@@ -1,10 +1,12 @@
-package com.ogawalucas.automobilesupplycontrol;
+package com.ogawalucas.automobilesupplycontrol.automobile.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.ogawalucas.automobilesupplycontrol.R;
 
 public class AboutActivity extends AppCompatActivity {
 

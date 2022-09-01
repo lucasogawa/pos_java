@@ -14,12 +14,12 @@
         android:theme="@style/Theme.AutomobileSupplyControl"
         tools:targetApi="31">
         <activity
-            android:name=".AboutActivity"
+            android:name=".automobile.activity.AboutActivity"
             android:exported="false"
-            android:parentActivityName=".ListingActivity">
+            android:parentActivityName=".automobile.activity.ListingActivity">
         </activity>
         <activity
-            android:name=".ListingActivity"
+            android:name=".automobile.activity.ListingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,9 +27,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddActivity"
+            android:name=".automobile.activity.AddActivity"
             android:exported="true"
-            android:parentActivityName=".ListingActivity">
+            android:parentActivityName=".automobile.activity.ListingActivity">
         </activity>
     </application>
 

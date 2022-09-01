@@ -1,4 +1,4 @@
-package com.ogawalucas.automobilesupplycontrol;
+package com.ogawalucas.automobilesupplycontrol.automobile.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.ogawalucas.automobilesupplycontrol.R;
+import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
+import com.ogawalucas.automobilesupplycontrol.automobile.model.EType;
 
 import java.util.List;
 

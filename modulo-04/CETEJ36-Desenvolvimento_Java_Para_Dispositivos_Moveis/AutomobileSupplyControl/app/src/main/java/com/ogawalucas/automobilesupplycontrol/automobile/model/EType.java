@@ -1,6 +1,8 @@
-package com.ogawalucas.automobilesupplycontrol;
+package com.ogawalucas.automobilesupplycontrol.automobile.model;
 
 import android.content.Context;
+
+import com.ogawalucas.automobilesupplycontrol.R;
 
 public enum EType {
 

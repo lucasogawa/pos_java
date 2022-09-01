@@ -1,9 +1,11 @@
-package com.ogawalucas.automobilesupplycontrol;
+package com.ogawalucas.automobilesupplycontrol.automobile.model;
 
 import android.content.Context;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.ogawalucas.automobilesupplycontrol.R;
 
 @Entity
 public class Automobile {

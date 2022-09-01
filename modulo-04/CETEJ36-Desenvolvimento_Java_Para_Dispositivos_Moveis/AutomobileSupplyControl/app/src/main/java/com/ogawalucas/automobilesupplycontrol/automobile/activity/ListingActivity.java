@@ -1,8 +1,8 @@
-package com.ogawalucas.automobilesupplycontrol;
+package com.ogawalucas.automobilesupplycontrol.automobile.activity;
 
-import static com.ogawalucas.automobilesupplycontrol.AddActivity.KEY_ADD_MODE;
-import static com.ogawalucas.automobilesupplycontrol.AddActivity.KEY_EDIT_MODE;
-import static com.ogawalucas.automobilesupplycontrol.AutomobileDatabase.getDatabase;
+import static com.ogawalucas.automobilesupplycontrol.automobile.activity.AddActivity.KEY_ADD_MODE;
+import static com.ogawalucas.automobilesupplycontrol.automobile.activity.AddActivity.KEY_EDIT_MODE;
+import static com.ogawalucas.automobilesupplycontrol.automobile.database.AutomobileDatabase.getDatabase;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,12 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+
+import com.ogawalucas.automobilesupplycontrol.R;
+import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
+import com.ogawalucas.automobilesupplycontrol.automobile.adapter.AutomobileAdapter;
+import com.ogawalucas.automobilesupplycontrol.automobile.model.ESortBy;
+import com.ogawalucas.automobilesupplycontrol.utils.AlertUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

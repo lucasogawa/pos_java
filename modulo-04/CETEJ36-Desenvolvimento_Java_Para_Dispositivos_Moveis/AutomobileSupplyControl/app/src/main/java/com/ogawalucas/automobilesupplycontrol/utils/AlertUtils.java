@@ -1,9 +1,11 @@
-package com.ogawalucas.automobilesupplycontrol;
+package com.ogawalucas.automobilesupplycontrol.utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
 
 import androidx.appcompat.app.AlertDialog;
+
+import com.ogawalucas.automobilesupplycontrol.R;
 
 public class AlertUtils {
 

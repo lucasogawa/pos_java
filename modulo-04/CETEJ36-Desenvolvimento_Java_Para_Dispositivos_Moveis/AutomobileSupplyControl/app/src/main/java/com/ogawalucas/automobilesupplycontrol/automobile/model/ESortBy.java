@@ -1,4 +1,4 @@
-package com.ogawalucas.automobilesupplycontrol;
+package com.ogawalucas.automobilesupplycontrol.automobile.model;
 
 public enum ESortBy {
 

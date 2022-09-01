@@ -1,6 +1,6 @@
-package com.ogawalucas.automobilesupplycontrol;
+package com.ogawalucas.automobilesupplycontrol.automobile.activity;
 
-import static com.ogawalucas.automobilesupplycontrol.AutomobileDatabase.getDatabase;
+import static com.ogawalucas.automobilesupplycontrol.automobile.database.AutomobileDatabase.getDatabase;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.ogawalucas.automobilesupplycontrol.R;
+import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
+import com.ogawalucas.automobilesupplycontrol.automobile.model.EType;
 
 public class AddActivity extends AppCompatActivity {
 
