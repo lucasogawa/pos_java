@@ -21,7 +21,7 @@ import com.ogawalucas.automobilesupplycontrol.R;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.EType;
 
-public class AddActivity extends AppCompatActivity {
+public class AutomobileAddActivity extends AppCompatActivity {
 
     public static final int KEY_ADD_MODE = 1;
     public static final int KEY_EDIT_MODE = 2;
@@ -46,7 +46,7 @@ public class AddActivity extends AppCompatActivity {
     private EditText etManufactoringYear;
 
     public static void openAddMode(AppCompatActivity activity) {
-        var intent = new Intent(activity, AddActivity.class);
+        var intent = new Intent(activity, AutomobileAddActivity.class);
 
         intent.putExtra(KEY_MODE, KEY_ADD_MODE);
 
@@ -54,7 +54,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     public static void openEditMode(AppCompatActivity activity, long id) {
-        var intent = new Intent(activity, AddActivity.class);
+        var intent = new Intent(activity, AutomobileAddActivity.class);
 
         intent.putExtra(KEY_MODE, KEY_EDIT_MODE);
         intent.putExtra(KEY_ID, id);

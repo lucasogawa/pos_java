@@ -16,10 +16,10 @@
         <activity
             android:name=".about.activity.AboutActivity"
             android:exported="false"
-            android:parentActivityName=".automobile.activity.ListingActivity">
+            android:parentActivityName=".automobile.activity.AutomobileListingActivity">
         </activity>
         <activity
-            android:name=".automobile.activity.ListingActivity"
+            android:name=".automobile.activity.AutomobileListingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,9 +27,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".automobile.activity.AddActivity"
+            android:name=".automobile.activity.AutomobileAddActivity"
             android:exported="true"
-            android:parentActivityName=".automobile.activity.ListingActivity">
+            android:parentActivityName=".automobile.activity.AutomobileListingActivity">
         </activity>
     </application>
 

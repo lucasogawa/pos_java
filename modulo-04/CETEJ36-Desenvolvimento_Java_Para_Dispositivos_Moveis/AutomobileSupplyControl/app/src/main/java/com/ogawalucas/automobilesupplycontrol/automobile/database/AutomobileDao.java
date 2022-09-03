@@ -25,6 +25,9 @@ public interface AutomobileDao {
     @Query("SELECT * FROM automobile WHERE id = :id")
     Automobile findById(long id);
 
-    @Query("SELECT * FROM automobile")
-    List<Automobile> findAll();
+    @Query("SELECT * FROM automobile ORDER BY nickname ASC")
+    List<Automobile> findAllOrderByNicknameAsc();
+
+    @Query("SELECT * FROM automobile ORDER BY nickname DESC")
+    List<Automobile> findAllOrderByNicknameDesc();
 }
