@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 
 import com.ogawalucas.automobilesupplycontrol.R;
+import com.ogawalucas.automobilesupplycontrol.about.activity.AboutActivity;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
 import com.ogawalucas.automobilesupplycontrol.automobile.adapter.AutomobileAdapter;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.ESortBy;

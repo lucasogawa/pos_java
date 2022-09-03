@@ -1,4 +1,4 @@
-package com.ogawalucas.automobilesupplycontrol.automobile.activity;
+package com.ogawalucas.automobilesupplycontrol.about.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
