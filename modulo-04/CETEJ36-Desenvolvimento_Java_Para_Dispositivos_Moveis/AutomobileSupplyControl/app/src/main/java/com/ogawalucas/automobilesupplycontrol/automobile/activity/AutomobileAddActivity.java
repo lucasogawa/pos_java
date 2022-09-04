@@ -130,7 +130,7 @@ public class AutomobileAddActivity extends AppCompatActivity {
 
                 etNickname.setText(automobile.getNickname());
                 cbTravelCar.setChecked(automobile.isTravel());
-                rgType.check(getTypeId(EType.valueOf(automobile.getType())));
+                rgType.check(getTypeId(automobile.getType()));
                 spBrand.setSelection(getBrandId(automobile.getBrand()));
                 etModel.setText(automobile.getModel());
                 etColor.setText(automobile.getColor());
@@ -247,7 +247,7 @@ public class AutomobileAddActivity extends AppCompatActivity {
         var automobile = new Automobile(
             etNickname.getText().toString(),
             cbTravelCar.isChecked(),
-            getType(rgType.getCheckedRadioButtonId()).name(),
+            getType(rgType.getCheckedRadioButtonId()),
             (String) spBrand.getSelectedItem(),
             etModel.getText().toString(),
             etColor.getText().toString(),

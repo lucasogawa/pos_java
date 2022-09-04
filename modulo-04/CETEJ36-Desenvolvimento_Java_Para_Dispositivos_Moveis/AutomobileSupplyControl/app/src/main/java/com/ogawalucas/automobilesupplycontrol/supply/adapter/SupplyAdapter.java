@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.ogawalucas.automobilesupplycontrol.R;
 import com.ogawalucas.automobilesupplycontrol.supply.model.Supply;
+import com.ogawalucas.automobilesupplycontrol.utils.DateUtils;
 
 import java.util.List;
 
@@ -71,11 +72,11 @@ public class SupplyAdapter extends BaseAdapter {
         }
 
         holder.tvFuelStation.setText(supplies.get(i).getFuelStation());
-        holder.tvDate.setText(supplies.get(i).getDate());
+        holder.tvDate.setText(DateUtils.format(context, supplies.get(i).getDate()));
         holder.tvTypeOfFuel.setText(supplies.get(i).getTypeOfFuel());
-        holder.tvKilometers.setText(supplies.get(i).getKilometers());
-        holder.tvLiters.setText(supplies.get(i).getLiters());
-        holder.tvAmountPaid.setText(supplies.get(i).getAmountPaid());
+        holder.tvKilometers.setText(String.valueOf(supplies.get(i).getKilometers()));
+        holder.tvLiters.setText(String.valueOf(supplies.get(i).getLiters()));
+        holder.tvAmountPaid.setText(String.valueOf(supplies.get(i).getAmountPaid()));
 
         return view;
     }

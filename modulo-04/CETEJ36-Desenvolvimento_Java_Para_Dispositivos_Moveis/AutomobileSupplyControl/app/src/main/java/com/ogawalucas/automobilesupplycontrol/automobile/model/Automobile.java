@@ -3,15 +3,11 @@ package com.ogawalucas.automobilesupplycontrol.automobile.model;
 import android.content.Context;
 
 import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.ogawalucas.automobilesupplycontrol.R;
 
-@Entity(
-    tableName = "automobile",
-    indices = @Index(value = {"nickname"}, unique = true)
-)
+@Entity(tableName = "automobile")
 public class Automobile {
 
     @PrimaryKey(autoGenerate = true)
@@ -21,7 +17,7 @@ public class Automobile {
 
     private boolean travel;
 
-    private String type;
+    private EType type;
 
     private String brand;
 
@@ -34,7 +30,7 @@ public class Automobile {
     public Automobile(
         String nickname,
         boolean travel,
-        String type,
+        EType type,
         String brand,
         String model,
         String color,
@@ -65,7 +61,7 @@ public class Automobile {
         return travel;
     }
 
-    public String getType() {
+    public EType getType() {
         return type;
     }
 
@@ -93,7 +89,7 @@ public class Automobile {
         this.travel = travel;
     }
 
-    public void setType(String type) {
+    public void setType(EType type) {
         this.type = type;
     }
 

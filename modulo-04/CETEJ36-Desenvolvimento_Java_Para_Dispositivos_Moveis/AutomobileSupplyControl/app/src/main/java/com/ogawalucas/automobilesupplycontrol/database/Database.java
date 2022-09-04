@@ -4,12 +4,14 @@ import android.content.Context;
 
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import com.ogawalucas.automobilesupplycontrol.automobile.dao.AutomobileDao;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
 import com.ogawalucas.automobilesupplycontrol.supply.dao.SupplyDao;
 import com.ogawalucas.automobilesupplycontrol.supply.model.Supply;
 
+@TypeConverters({Converters.class})
 @androidx.room.Database(entities = {Automobile.class, Supply.class}, version = 1, exportSchema = false)
 public abstract class Database extends RoomDatabase {
 

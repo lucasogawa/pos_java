@@ -138,6 +138,7 @@ public class SupplyAddActivity extends AppCompatActivity {
     }
 
     private void configureDatePicker() {
+        etDate.setFocusable(false);
         etDate.setOnClickListener(view -> {
             DatePickerDialog picker = new DatePickerDialog(
                 SupplyAddActivity.this,
@@ -199,11 +200,12 @@ public class SupplyAddActivity extends AppCompatActivity {
 
                     spAutomobile.setSelection(getAutomobile(supply.getId()));
                     etFuelStation.setText(supply.getFuelStation());
-                    etDate.setText(supply.getDate());
+                    calendarDate.setTime(supply.getDate());
+                    etDate.setText(DateUtils.format(this, supply.getDate()));
                     spTypeOfFuel.setSelection(getTypeOfFuel(supply.getTypeOfFuel()));
-                    etKilometers.setText(supply.getKilometers());
-                    etLiters.setText(supply.getLiters());
-                    etAmountPaid.setText(supply.getAmountPaid());
+                    etKilometers.setText(String.valueOf(supply.getKilometers()));
+                    etLiters.setText(String.valueOf(supply.getLiters()));
+                    etAmountPaid.setText(String.valueOf(supply.getAmountPaid()));
 
                     spAutomobile.setEnabled(false);
                     break;
@@ -316,11 +318,11 @@ public class SupplyAddActivity extends AppCompatActivity {
         var supply = new Supply(
             ((Automobile) spAutomobile.getSelectedItem()).getId(),
             etFuelStation.getText().toString(),
-            calendarDate.getTime().toString(),
+            calendarDate.getTime(),
             (String) spTypeOfFuel.getSelectedItem(),
-            etKilometers.getText().toString(),
-            etLiters.getText().toString(),
-            etAmountPaid.getText().toString()
+            Double.parseDouble(etKilometers.getText().toString()),
+            Double.parseDouble(etLiters.getText().toString()),
+            Double.parseDouble(etAmountPaid.getText().toString())
         );
         supply.setId(bundle.getLong(KEY_ID));
 

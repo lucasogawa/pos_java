@@ -9,6 +9,7 @@ import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
 
 @Entity(tableName = "supply",
     foreignKeys = @ForeignKey(
@@ -27,21 +28,29 @@ public class Supply {
 
     private String fuelStation;
 
-    private String date;
+    private Date date;
 
     private String typeOfFuel;
 
-    private String kilometers;
+    private double kilometers;
 
-    private String liters;
+    private double liters;
 
-    private String amountPaid;
+    private double amountPaid;
 
-    private String pricePerLiter;
+    private double pricePerLiter;
 
-    private String kilometersPerLiter;
+    private double kilometersPerLiter;
 
-    public Supply(long automobileId, String fuelStation, String date, String typeOfFuel, String kilometers, String liters, String amountPaid) {
+    public Supply(
+        long automobileId,
+        String fuelStation,
+        Date date,
+        String typeOfFuel,
+        double kilometers,
+        double liters,
+        double amountPaid
+    ) {
         this.automobileId = automobileId;
         this.fuelStation = fuelStation;
         this.date = date;
@@ -53,12 +62,14 @@ public class Supply {
         this.kilometersPerLiter = calculateKilometersPerLiter();
     }
 
-    private String calculatePricePerLiter() {
-        return new BigDecimal(this.amountPaid).divide(new BigDecimal(this.liters)).setScale(2, RoundingMode.HALF_DOWN).toString();
+    private double calculatePricePerLiter() {
+        return BigDecimal.valueOf(this.amountPaid / this.liters)
+            .setScale(2, RoundingMode.HALF_DOWN).doubleValue();
     }
 
-    private String calculateKilometersPerLiter() {
-        return new BigDecimal(this.kilometers).divide(new BigDecimal(this.liters)).setScale(2, RoundingMode.HALF_DOWN).toString();
+    private double calculateKilometersPerLiter() {
+        return BigDecimal.valueOf(this.kilometers / this.liters)
+            .setScale(2, RoundingMode.HALF_DOWN).doubleValue();
     }
 
     public long getId() {
@@ -85,11 +96,11 @@ public class Supply {
         this.fuelStation = fuelStation;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -101,43 +112,43 @@ public class Supply {
         this.typeOfFuel = typeOfFuel;
     }
 
-    public String getKilometers() {
+    public double getKilometers() {
         return kilometers;
     }
 
-    public void setKilometers(String kilometers) {
+    public void setKilometers(double kilometers) {
         this.kilometers = kilometers;
     }
 
-    public String getLiters() {
+    public double getLiters() {
         return liters;
     }
 
-    public void setLiters(String liters) {
+    public void setLiters(double liters) {
         this.liters = liters;
     }
 
-    public String getAmountPaid() {
+    public double getAmountPaid() {
         return amountPaid;
     }
 
-    public void setAmountPaid(String amountPaid) {
+    public void setAmountPaid(double amountPaid) {
         this.amountPaid = amountPaid;
     }
 
-    public String getPricePerLiter() {
+    public double getPricePerLiter() {
         return pricePerLiter;
     }
 
-    public void setPricePerLiter(String pricePerLiter) {
+    public void setPricePerLiter(double pricePerLiter) {
         this.pricePerLiter = pricePerLiter;
     }
 
-    public String getKilometersPerLiter() {
+    public double getKilometersPerLiter() {
         return kilometersPerLiter;
     }
 
-    public void setKilometersPerLiter(String kilometersPerLiter) {
+    public void setKilometersPerLiter(double kilometersPerLiter) {
         this.kilometersPerLiter = kilometersPerLiter;
     }
 }
