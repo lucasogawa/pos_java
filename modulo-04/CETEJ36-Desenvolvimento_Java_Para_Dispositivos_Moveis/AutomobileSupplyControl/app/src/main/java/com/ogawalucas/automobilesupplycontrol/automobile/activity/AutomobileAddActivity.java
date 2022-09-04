@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ogawalucas.automobilesupplycontrol.R;
+import com.ogawalucas.automobilesupplycontrol.automobile.dao.AutomobileDao;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.EType;
 import com.ogawalucas.automobilesupplycontrol.database.Database;
@@ -43,6 +44,8 @@ public class AutomobileAddActivity extends AppCompatActivity {
     private EditText etColor;
     private TextView tvManufactoringYear;
     private EditText etManufactoringYear;
+
+    private AutomobileDao automobileDao;
 
     public static void openAddMode(AppCompatActivity activity) {
         var intent = new Intent(activity, AutomobileAddActivity.class);
@@ -101,6 +104,8 @@ public class AutomobileAddActivity extends AppCompatActivity {
 
         tvManufactoringYear = findViewById(R.id.tvManufactoringYear);
         etManufactoringYear = findViewById(R.id.etManufactoringYear);
+
+        automobileDao = Database.get(this).automobileDao();
     }
 
     private void setSpinnersOptions() {
@@ -121,7 +126,7 @@ public class AutomobileAddActivity extends AppCompatActivity {
             } else {
                 setTitle(getString(R.string.edit_automobile));
 
-                var automobile = Database.get(this).automobileDao().findById(bundle.getLong(KEY_ID));
+                var automobile = automobileDao.findById(bundle.getLong(KEY_ID));
 
                 etNickname.setText(automobile.getNickname());
                 cbTravelCar.setChecked(automobile.isTravel());
@@ -239,7 +244,6 @@ public class AutomobileAddActivity extends AppCompatActivity {
 
     private void createOrUpdate() {
         var bundle = getIntent().getExtras();
-        var database = Database.get(this);
         var automobile = new Automobile(
             etNickname.getText().toString(),
             cbTravelCar.isChecked(),
@@ -252,9 +256,9 @@ public class AutomobileAddActivity extends AppCompatActivity {
         automobile.setId(bundle.getLong(KEY_ID));
 
         if (bundle.getInt(KEY_MODE, KEY_ADD_MODE) == KEY_ADD_MODE) {
-            database.automobileDao().create(automobile);
+            automobileDao.create(automobile);
         } else {
-            database.automobileDao().update(automobile);
+            automobileDao.update(automobile);
         }
 
         setResult(Activity.RESULT_OK, new Intent());

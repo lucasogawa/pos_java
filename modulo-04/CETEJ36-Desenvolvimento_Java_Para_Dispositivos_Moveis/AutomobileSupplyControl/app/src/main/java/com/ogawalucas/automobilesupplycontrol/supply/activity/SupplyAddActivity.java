@@ -25,8 +25,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ogawalucas.automobilesupplycontrol.R;
+import com.ogawalucas.automobilesupplycontrol.automobile.dao.AutomobileDao;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
 import com.ogawalucas.automobilesupplycontrol.database.Database;
+import com.ogawalucas.automobilesupplycontrol.supply.dao.SupplyDao;
 import com.ogawalucas.automobilesupplycontrol.supply.model.Supply;
 import com.ogawalucas.automobilesupplycontrol.utils.AlertUtils;
 import com.ogawalucas.automobilesupplycontrol.utils.DateUtils;
@@ -52,6 +54,9 @@ public class SupplyAddActivity extends AppCompatActivity {
     private TextView tvAmountPaid;
     private EditText etAmountPaid;
 
+    private SupplyDao supplyDao;
+
+    private AutomobileDao automobileDao;
     private List<Automobile> automobiles;
 
     public static void openAddMode(AppCompatActivity activity) {
@@ -124,7 +129,12 @@ public class SupplyAddActivity extends AppCompatActivity {
         tvAmountPaid = findViewById(R.id.tvAmountPaid);
         etAmountPaid = findViewById(R.id.etAmountPaid);
 
-        automobiles = Database.get(SupplyAddActivity.this).automobileDao().findAllOrderByNicknameAsc();
+        var database = Database.get(this);
+
+        supplyDao = database.supplyDao();
+
+        automobileDao = database.automobileDao();
+        automobiles = automobileDao.findAllOrderByNicknameAsc();
     }
 
     private void configureDatePicker() {
@@ -171,45 +181,48 @@ public class SupplyAddActivity extends AppCompatActivity {
         var bundle = getIntent().getExtras();
 
         if (bundle != null) {
-            if (bundle.getInt(KEY_MODE, KEY_ADD_MODE) == KEY_ADD_MODE) {
-                setTitle(getString(R.string.add_supply));
+            switch (bundle.getInt(KEY_MODE, KEY_ADD_MODE)) {
+                case KEY_ADD_MODE:
+                    setTitle(getString(R.string.add_supply));
+                    validateAutomobiles();
+                    break;
 
-                if (automobiles.size() == 0) {
-                    error();
-                }
-            } else {
-                setTitle(getString(R.string.edit_supply));
+                case KEY_ADD_MODE_BY_PARAMS:
+                    setTitle(getString(R.string.add_supply));
+                    spAutomobile.setSelection(getAutomobile(bundle.getLong(KEY_ID)));
+                    spAutomobile.setEnabled(false);
+                    break;
 
-                var supply = Database.get(this).supplyDao().findById(bundle.getLong(KEY_ID));
+                default:
+                    setTitle(getString(R.string.edit_supply));
+                    var supply = supplyDao.findById(bundle.getLong(KEY_ID));
 
-                spAutomobile.setSelection(getAutomobile(supply.getId()));
-                etFuelStation.setText(supply.getFuelStation());
-                etDate.setText(supply.getDate());
-                spTypeOfFuel.setSelection(getTypeOfFuel(supply.getTypeOfFuel()));
-                etKilometers.setText(supply.getKilometers());
-                etLiters.setText(supply.getLiters());
-                etAmountPaid.setText(supply.getAmountPaid());
+                    spAutomobile.setSelection(getAutomobile(supply.getId()));
+                    etFuelStation.setText(supply.getFuelStation());
+                    etDate.setText(supply.getDate());
+                    spTypeOfFuel.setSelection(getTypeOfFuel(supply.getTypeOfFuel()));
+                    etKilometers.setText(supply.getKilometers());
+                    etLiters.setText(supply.getLiters());
+                    etAmountPaid.setText(supply.getAmountPaid());
 
-                spAutomobile.setEnabled(false);
-            }
-
-            if (bundle.getInt(KEY_MODE, KEY_ADD_MODE) == KEY_ADD_MODE_BY_PARAMS) {
-                spAutomobile.setSelection(getAutomobile(bundle.getLong(KEY_ID)));
-                spAutomobile.setEnabled(false);
+                    spAutomobile.setEnabled(false);
+                    break;
             }
         }
     }
 
-    private void error() {
-        AlertUtils.showAlert(
-            this,
-            getString(R.string.no_automobiles_added),
-            (dialog, option) -> {
-                if (option == DialogInterface.BUTTON_NEUTRAL) {
-                    finish();
+    private void validateAutomobiles() {
+        if (automobiles.size() == 0) {
+            AlertUtils.showAlert(
+                this,
+                getString(R.string.no_automobiles_added),
+                (dialog, option) -> {
+                    if (option == DialogInterface.BUTTON_NEUTRAL) {
+                        finish();
+                    }
                 }
-            }
-        );
+            );
+        }
     }
 
     private int getAutomobile(long id) {
@@ -225,8 +238,7 @@ public class SupplyAddActivity extends AppCompatActivity {
     }
 
     private int getTypeOfFuel(String typeOfFuel) {
-        int pos = 0;
-
+        var pos = 0;
         var typesOfFuel = getResources().getStringArray(R.array.typesOfFuel);
 
         for (int i = 0; i < typesOfFuel.length; i++) {
@@ -301,7 +313,6 @@ public class SupplyAddActivity extends AppCompatActivity {
 
     private void createOrUpdate() {
         var bundle = getIntent().getExtras();
-        var database = Database.get(this);
         var supply = new Supply(
             ((Automobile) spAutomobile.getSelectedItem()).getId(),
             etFuelStation.getText().toString(),
@@ -314,9 +325,9 @@ public class SupplyAddActivity extends AppCompatActivity {
         supply.setId(bundle.getLong(KEY_ID));
 
         if (bundle.getInt(KEY_MODE, KEY_ADD_MODE) == KEY_ADD_MODE) {
-            database.supplyDao().create(supply);
+            supplyDao.create(supply);
         } else {
-            database.supplyDao().update(supply);
+            supplyDao.update(supply);
         }
 
         setResult(Activity.RESULT_OK, new Intent());

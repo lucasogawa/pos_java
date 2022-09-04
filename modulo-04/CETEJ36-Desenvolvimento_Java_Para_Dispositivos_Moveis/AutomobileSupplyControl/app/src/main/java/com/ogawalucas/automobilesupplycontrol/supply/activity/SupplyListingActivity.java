@@ -5,7 +5,6 @@ import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_
 import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_ARCHIVE;
 import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_EDIT_MODE;
 import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_ID;
-import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_MODE;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,9 +22,9 @@ import androidx.appcompat.view.ActionMode;
 
 import com.ogawalucas.automobilesupplycontrol.R;
 import com.ogawalucas.automobilesupplycontrol.automobile.enums.ESortBy;
-import com.ogawalucas.automobilesupplycontrol.automobile.model.EType;
 import com.ogawalucas.automobilesupplycontrol.database.Database;
 import com.ogawalucas.automobilesupplycontrol.supply.adapter.SupplyAdapter;
+import com.ogawalucas.automobilesupplycontrol.supply.dao.SupplyDao;
 import com.ogawalucas.automobilesupplycontrol.supply.model.Supply;
 import com.ogawalucas.automobilesupplycontrol.utils.AlertUtils;
 
@@ -46,6 +45,8 @@ public class SupplyListingActivity extends AppCompatActivity {
     private ListView lvSupplies;
     private SupplyAdapter supplyAdapter;
     private ArrayList<Supply> supplies;
+
+    private SupplyDao supplyDao;
 
     private long automobileId = -1;
 
@@ -79,6 +80,8 @@ public class SupplyListingActivity extends AppCompatActivity {
     private void mapAttributes() {
         lvSupplies = findViewById(R.id.lvSupplies);
         actionModeCallback = getActionModeMenuItemSelected();
+
+        supplyDao = Database.get(this).supplyDao();
 
         automobileId = getAutomobileId();
     }
@@ -141,7 +144,7 @@ public class SupplyListingActivity extends AppCompatActivity {
             getString(R.string.do_you_really_want_to_delete) + "\n" + supplies.get(selectedPosition).getDate(),
             (dialog, option) -> {
                 if (option == DialogInterface.BUTTON_POSITIVE) {
-                    Database.get(this).supplyDao().delete(supplies.get(selectedPosition));
+                    supplyDao.delete(supplies.get(selectedPosition));
                     setListViewItens();
                 }
             }
@@ -172,8 +175,6 @@ public class SupplyListingActivity extends AppCompatActivity {
     }
 
     private List<Supply> findAll() {
-        var supplyDao = Database.get(this).supplyDao();
-
         return ESortBy.valueOf(sortByDate) == ESortBy.ASC
             ? supplyDao.findAllOrderByDateAsc()
             : supplyDao.findAllOrderByDateDesc();
@@ -269,6 +270,10 @@ public class SupplyListingActivity extends AppCompatActivity {
 
             case R.id.miDesc:
                 savePreferenceSortByDate(ESortBy.DESC.name());
+                return true;
+
+            case android.R.id.home:
+                cancel();
                 return true;
 
             default:

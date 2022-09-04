@@ -21,11 +21,13 @@ import androidx.appcompat.view.ActionMode;
 import com.ogawalucas.automobilesupplycontrol.R;
 import com.ogawalucas.automobilesupplycontrol.about.activity.AboutActivity;
 import com.ogawalucas.automobilesupplycontrol.automobile.adapter.AutomobileAdapter;
+import com.ogawalucas.automobilesupplycontrol.automobile.dao.AutomobileDao;
 import com.ogawalucas.automobilesupplycontrol.automobile.enums.ESortBy;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
 import com.ogawalucas.automobilesupplycontrol.database.Database;
 import com.ogawalucas.automobilesupplycontrol.supply.activity.SupplyAddActivity;
 import com.ogawalucas.automobilesupplycontrol.supply.activity.SupplyListingActivity;
+import com.ogawalucas.automobilesupplycontrol.supply.dao.SupplyDao;
 import com.ogawalucas.automobilesupplycontrol.supply.model.Supply;
 import com.ogawalucas.automobilesupplycontrol.utils.AlertUtils;
 
@@ -47,6 +49,9 @@ public class AutomobileListingActivity extends AppCompatActivity {
     private AutomobileAdapter automobileAdapter;
     private ArrayList<Automobile> automobiles;
 
+    private AutomobileDao automobileDao;
+    private SupplyDao supplyDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +65,10 @@ public class AutomobileListingActivity extends AppCompatActivity {
     private void mapAttributes() {
         lvAutomobile = findViewById(R.id.lvAutomobile);
         actionModeCallback = getActionModeMenuItemSelected();
+
+        var databaase = Database.get(this);
+        automobileDao = databaase.automobileDao();
+        supplyDao = databaase.supplyDao();
     }
 
     private ActionMode.Callback getActionModeMenuItemSelected() {
@@ -122,7 +131,7 @@ public class AutomobileListingActivity extends AppCompatActivity {
             (dialog, option) -> {
                 if (option == DialogInterface.BUTTON_POSITIVE) {
                     deleteSupplies();
-                    Database.get(this).automobileDao().delete(automobiles.get(selectedPosition));
+                    automobileDao.delete(automobiles.get(selectedPosition));
                     setListViewItens();
                 }
             }
@@ -130,8 +139,8 @@ public class AutomobileListingActivity extends AppCompatActivity {
     }
 
     private void deleteSupplies() {
-        for (Supply supply : Database.get(this).supplyDao().findByAutomobileId(automobiles.get(selectedPosition).getId())) {
-            Database.get(this).supplyDao().delete(supply);
+        for (Supply supply : supplyDao.findByAutomobileId(automobiles.get(selectedPosition).getId())) {
+            supplyDao.delete(supply);
         }
     }
 
@@ -153,8 +162,6 @@ public class AutomobileListingActivity extends AppCompatActivity {
     }
 
     private List<Automobile> findAll() {
-        var automobileDao = Database.get(this).automobileDao();
-
         return ESortBy.valueOf(sortByNickname) == ESortBy.ASC
             ? automobileDao.findAllOrderByNicknameAsc()
             : automobileDao.findAllOrderByNicknameDesc();
