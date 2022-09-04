@@ -14,23 +14,28 @@
         android:theme="@style/Theme.AutomobileSupplyControl"
         tools:targetApi="31">
         <activity
+            android:name=".supply.activity.SupplyListingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".supply.activity.SupplyAddActivity"
+            android:exported="false" />
+        <activity
             android:name=".about.activity.AboutActivity"
             android:exported="false"
-            android:parentActivityName=".automobile.activity.AutomobileListingActivity">
-        </activity>
+            android:parentActivityName=".automobile.activity.AutomobileListingActivity" />
         <activity
             android:name=".automobile.activity.AutomobileListingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".automobile.activity.AutomobileAddActivity"
             android:exported="true"
-            android:parentActivityName=".automobile.activity.AutomobileListingActivity">
-        </activity>
+            android:parentActivityName=".automobile.activity.AutomobileListingActivity" />
     </application>
 
 </manifest>

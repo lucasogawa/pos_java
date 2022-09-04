@@ -13,4 +13,16 @@
         <item>@string/ford</item>
         <item>@string/toyota</item>
     </string-array>
+
+    <string-array name="typesOfFuel">
+        <item>@string/regular_gasoline</item>
+        <item>@string/additive_gasoline</item>
+        <item>@string/premium_gasoline</item>
+        <item>@string/ethanol</item>
+        <item>@string/ethanol_additive</item>
+        <item>@string/common_diesel</item>
+        <item>@string/diesel_s_10</item>
+        <item>@string/diesel_additive</item>
+        <item>@string/premium_diesel</item>
+    </string-array>
 </resources>

@@ -32,4 +32,22 @@
     <string name="confirm">Confirmar</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="type_of_fuel">Tipo de Combustível</string>
+    <string name="amount_paid">Amount Paid</string>
+    <string name="fuel_station">Posto de Combustível</string>
+    <string name="date">Data</string>
+    <string name="additive_gasoline">Gasolina Aditivada</string>
+    <string name="premium_gasoline">Gasolina Premium</string>
+    <string name="ethanol">Etanol</string>
+    <string name="ethanol_additive">Etanol Aditivado</string>
+    <string name="common_diesel">Diesel Comum</string>
+    <string name="diesel_s_10">Diesel S-10</string>
+    <string name="diesel_additive">Diesel Aditivado</string>
+    <string name="premium_diesel">Diesel Premium</string>
+    <string name="regular_gasoline">Gasolina Comum</string>
+    <string name="kilometers">Kilometros</string>
+    <string name="liters">Litros</string>
+    <string name="automobile">Automóvel</string>
+    <string name="add_supply">Adicionar Abastecimento</string>
+    <string name="edit_supply">Editar Abastecimento</string>
 </resources>

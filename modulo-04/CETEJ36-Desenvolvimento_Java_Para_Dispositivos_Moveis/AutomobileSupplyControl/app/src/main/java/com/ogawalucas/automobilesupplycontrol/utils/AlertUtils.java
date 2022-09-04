@@ -2,12 +2,17 @@ package com.ogawalucas.automobilesupplycontrol.utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.ogawalucas.automobilesupplycontrol.R;
 
 public class AlertUtils {
+
+    public static void showToast(Context context, String message, int duration) {
+        Toast.makeText(context, message, duration).show();
+    }
 
     public static void showConfirm(
         Context contexto,

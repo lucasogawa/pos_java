@@ -1,6 +1,12 @@
 package com.ogawalucas.automobilesupplycontrol.automobile.activity;
 
-import static com.ogawalucas.automobilesupplycontrol.automobile.database.AutomobileDatabase.getDatabase;
+import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_ADD_MODE;
+import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_EDIT_MODE;
+import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_ID;
+import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_MODE;
+import static com.ogawalucas.automobilesupplycontrol.utils.AlertUtils.showToast;
+import static com.ogawalucas.automobilesupplycontrol.utils.ValidateUtils.isRadioButtonValid;
+import static com.ogawalucas.automobilesupplycontrol.utils.ValidateUtils.isTextViewValid;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,16 +26,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.ogawalucas.automobilesupplycontrol.R;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.EType;
+import com.ogawalucas.automobilesupplycontrol.database.Database;
 
 public class AutomobileAddActivity extends AppCompatActivity {
-
-    public static final int KEY_ADD_MODE = 1;
-    public static final int KEY_EDIT_MODE = 2;
-
-    public static final String KEY_MODE = "MODE";
-    public static final String KEY_ID = "ID";
-
-    private static final String MSG_EMPTY_FIELDS = "%s: %s.";
 
     private TextView tvNickname;
     private EditText etNickname;
@@ -65,13 +64,52 @@ public class AutomobileAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_atuomobile_add);
 
         setActionBar();
         mapAttributes();
         setSpinnersOptions();
 
         initializeData();
+    }
+
+    private void setActionBar() {
+        var actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void mapAttributes() {
+        tvNickname = findViewById(R.id.tvNickname);
+        etNickname = findViewById(R.id.etNickname);
+
+        cbTravelCar = findViewById(R.id.cbTravelCar);
+
+        tvType = findViewById(R.id.tvAutomobileCar);
+        rgType = findViewById(R.id.rgAutomobileCar);
+
+        tvBrand = findViewById(R.id.tvBrand);
+        spBrand = findViewById(R.id.spBrand);
+
+        tvModel = findViewById(R.id.tvModel);
+        etModel = findViewById(R.id.etModel);
+
+        tvColor = findViewById(R.id.tvColor);
+        etColor = findViewById(R.id.etColor);
+
+        tvManufactoringYear = findViewById(R.id.tvManufactoringYear);
+        etManufactoringYear = findViewById(R.id.etManufactoringYear);
+    }
+
+    private void setSpinnersOptions() {
+        var adapter =
+            ArrayAdapter.createFromResource(this, R.array.brands, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spBrand.setAdapter(adapter);
     }
 
     private void initializeData() {
@@ -83,7 +121,7 @@ public class AutomobileAddActivity extends AppCompatActivity {
             } else {
                 setTitle(getString(R.string.edit_automobile));
 
-                var automobile = getDatabase(this).automobileDao().findById(bundle.getLong(KEY_ID));
+                var automobile = Database.get(this).automobileDao().findById(bundle.getLong(KEY_ID));
 
                 etNickname.setText(automobile.getNickname());
                 cbTravelCar.setChecked(automobile.isTravel());
@@ -137,51 +175,12 @@ public class AutomobileAddActivity extends AppCompatActivity {
         return pos;
     }
 
-    private void setActionBar() {
-        var actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    private void mapAttributes() {
-        tvNickname = findViewById(R.id.tvNickname);
-        etNickname = findViewById(R.id.etNickname);
-
-        cbTravelCar = findViewById(R.id.cbTravelCar);
-
-        tvType = findViewById(R.id.tvAutomobileCar);
-        rgType = findViewById(R.id.rgAutomobileCar);
-
-        tvBrand = findViewById(R.id.tvBrand);
-        spBrand = findViewById(R.id.spBrand);
-
-        tvModel = findViewById(R.id.tvModel);
-        etModel = findViewById(R.id.etModel);
-
-        tvColor = findViewById(R.id.tvColor);
-        etColor = findViewById(R.id.etColor);
-
-        tvManufactoringYear = findViewById(R.id.tvManufactoringYear);
-        etManufactoringYear = findViewById(R.id.etManufactoringYear);
-    }
-
-    private void setSpinnersOptions() {
-        var adapter =
-            ArrayAdapter.createFromResource(this, R.array.brands, android.R.layout.simple_spinner_item);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spBrand.setAdapter(adapter);
-    }
-
     @Override
     public void onBackPressed() {
         cancel();
     }
 
-    private void cancel(){
+    private void cancel() {
         setResult(Activity.RESULT_CANCELED);
         finish();
     }
@@ -221,7 +220,7 @@ public class AutomobileAddActivity extends AppCompatActivity {
         etColor.setText(null);
         etManufactoringYear.setText(null);
 
-        showToast(getString(R.string.cleaned), Toast.LENGTH_SHORT);
+        showToast(this, getString(R.string.cleaned), Toast.LENGTH_SHORT);
     }
 
     public void save() {
@@ -231,70 +230,16 @@ public class AutomobileAddActivity extends AppCompatActivity {
     }
 
     private boolean isFieldsValid() {
-        return isNicknameValid()
-            && isAutomobileTypeValid()
-            && isModelValid()
-            && isColorValid()
-            && isManufactoringYearValid();
-    }
-
-    private boolean isNicknameValid() {
-        if (etNickname.getText() == null || etNickname.getText().length() == 0) {
-            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), tvNickname.getText()), Toast.LENGTH_LONG);
-            etNickname.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isAutomobileTypeValid() {
-        if (rgType.getCheckedRadioButtonId() == -1) {
-            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), tvType.getText()), Toast.LENGTH_LONG);
-            rgType.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isModelValid() {
-        if (etModel.getText() == null || etModel.getText().length() == 0) {
-            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etModel.getText()), Toast.LENGTH_LONG);
-            etModel.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isColorValid() {
-        if (etColor.getText() == null || etColor.getText().length() == 0) {
-            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), etColor.getText()), Toast.LENGTH_LONG);
-            etColor.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean isManufactoringYearValid() {
-        if (etManufactoringYear.getText() == null || etManufactoringYear.getText().length() == 0) {
-            showToast(String.format(MSG_EMPTY_FIELDS, getString(R.string.empty_fields), tvManufactoringYear.getText()), Toast.LENGTH_LONG);
-            etManufactoringYear.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
-
-    private void showToast(String message, int duration) {
-        Toast.makeText(this, message, duration).show();
+        return isTextViewValid(this, tvNickname, etNickname)
+            && isRadioButtonValid(this, tvType, rgType)
+            && isTextViewValid(this, tvModel, etModel)
+            && isTextViewValid(this, tvColor, etColor)
+            && isTextViewValid(this, tvManufactoringYear, etManufactoringYear);
     }
 
     private void createOrUpdate() {
         var bundle = getIntent().getExtras();
-        var database = getDatabase(this);
+        var database = Database.get(this);
         var automobile = new Automobile(
             etNickname.getText().toString(),
             cbTravelCar.isChecked(),

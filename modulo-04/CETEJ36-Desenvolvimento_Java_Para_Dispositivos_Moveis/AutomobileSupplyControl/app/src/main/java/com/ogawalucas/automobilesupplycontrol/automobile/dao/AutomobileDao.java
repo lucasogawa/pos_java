@@ -1,4 +1,4 @@
-package com.ogawalucas.automobilesupplycontrol.automobile.database;
+package com.ogawalucas.automobilesupplycontrol.automobile.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

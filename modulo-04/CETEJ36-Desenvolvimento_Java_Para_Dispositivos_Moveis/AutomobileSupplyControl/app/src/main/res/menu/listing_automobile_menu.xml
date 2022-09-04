@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/miAddSupply"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/add"
+        android:visible="true"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/miAddAutomobile"
+        android:title="@string/add_automobile" />
+    <group
+        android:id="@+id/gSorterByNickname"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/miAsc"
+            android:title="@string/asc" />
+        <item
+            android:id="@+id/miDesc"
+            android:title="@string/desc" />
+    </group>
+
+    <item
+        android:id="@+id/miAbout"
+        android:title="@string/about"
+        android:visible="true" />
+</menu>

@@ -45,4 +45,22 @@
     <string name="confirm">Confirm</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="type_of_fuel">Type Of Fuel</string>
+    <string name="amount_paid">Amount Paid</string>
+    <string name="fuel_station">Fuel Station</string>
+    <string name="date">Date</string>
+    <string name="additive_gasoline">Additive Gasoline</string>
+    <string name="premium_gasoline">Premium Gasoline</string>
+    <string name="ethanol">Ethanol</string>
+    <string name="ethanol_additive">Ethanol Additive</string>
+    <string name="common_diesel">Common Diesel</string>
+    <string name="diesel_s_10">Diesel S-10</string>
+    <string name="diesel_additive">Diesel Additive</string>
+    <string name="premium_diesel">Premium Diesel</string>
+    <string name="regular_gasoline">Regular Gasoline</string>
+    <string name="kilometers">Kilometers</string>
+    <string name="liters">Liters</string>
+    <string name="automobile">Automobile</string>
+    <string name="add_supply">Add Supply</string>
+    <string name="edit_supply">Edit Supply</string>
 </resources>

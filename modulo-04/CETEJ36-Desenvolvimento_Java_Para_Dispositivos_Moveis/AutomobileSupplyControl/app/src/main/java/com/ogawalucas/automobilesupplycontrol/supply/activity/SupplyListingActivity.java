@@ -1,8 +1,11 @@
-package com.ogawalucas.automobilesupplycontrol.automobile.activity;
+package com.ogawalucas.automobilesupplycontrol.supply.activity;
 
 import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_ADD_MODE;
+import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_ADD_MODE_BY_PARAMS;
 import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_ARCHIVE;
 import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_EDIT_MODE;
+import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_ID;
+import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_MODE;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,46 +22,65 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 
 import com.ogawalucas.automobilesupplycontrol.R;
-import com.ogawalucas.automobilesupplycontrol.about.activity.AboutActivity;
-import com.ogawalucas.automobilesupplycontrol.automobile.adapter.AutomobileAdapter;
 import com.ogawalucas.automobilesupplycontrol.automobile.enums.ESortBy;
-import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
+import com.ogawalucas.automobilesupplycontrol.automobile.model.EType;
 import com.ogawalucas.automobilesupplycontrol.database.Database;
-import com.ogawalucas.automobilesupplycontrol.supply.activity.SupplyAddActivity;
-import com.ogawalucas.automobilesupplycontrol.supply.activity.SupplyListingActivity;
+import com.ogawalucas.automobilesupplycontrol.supply.adapter.SupplyAdapter;
+import com.ogawalucas.automobilesupplycontrol.supply.model.Supply;
 import com.ogawalucas.automobilesupplycontrol.utils.AlertUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AutomobileListingActivity extends AppCompatActivity {
+public class SupplyListingActivity extends AppCompatActivity {
 
-    private static final String KEY_SORT_BY_NICKNAME = "SORT_BY_NICKNAME";
+    private static final String KEY_SORT_BY_DATE = "SORT_BY_DATE";
 
-    private String sortByNickname = ESortBy.ASC.name();
+    private String sortByDate = ESortBy.ASC.name();
 
     private ActionMode actionMode;
     private int selectedPosition = -1;
     private View selectedView;
     private ActionMode.Callback actionModeCallback;
 
-    private ListView lvAutomobile;
-    private AutomobileAdapter automobileAdapter;
-    private ArrayList<Automobile> automobiles;
+    private ListView lvSupplies;
+    private SupplyAdapter supplyAdapter;
+    private ArrayList<Supply> supplies;
+
+    private long automobileId = -1;
+
+    public static void open(AppCompatActivity activity, long id) {
+        var intent = new Intent(activity, SupplyListingActivity.class);
+
+        intent.putExtra(KEY_ID, id);
+
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_automobile_listing);
+        setContentView(R.layout.activity_supply_listing);
 
+        setActionBar();
         mapAttributes();
         loadPreferences();
         configureListView();
     }
 
+    private void setActionBar() {
+        var actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
     private void mapAttributes() {
-        lvAutomobile = findViewById(R.id.lvAutomobile);
+        lvSupplies = findViewById(R.id.lvSupplies);
         actionModeCallback = getActionModeMenuItemSelected();
+
+        automobileId = getAutomobileId();
     }
 
     private ActionMode.Callback getActionModeMenuItemSelected() {
@@ -86,7 +108,7 @@ public class AutomobileListingActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.miDelete:
-                        deleteAutomobile();
+                        deleteSupply();
                         mode.finish();
                         return true;
 
@@ -104,26 +126,57 @@ public class AutomobileListingActivity extends AppCompatActivity {
                 actionMode = null;
                 selectedView = null;
 
-                lvAutomobile.setEnabled(true);
+                lvSupplies.setEnabled(true);
             }
         };
     }
 
     private void openEditActivity() {
-        AutomobileAddActivity.openEditMode(this, automobiles.get(selectedPosition).getId());
+        SupplyAddActivity.openEditMode(this, supplies.get(selectedPosition).getId());
     }
 
-    private void deleteAutomobile() {
+    private void deleteSupply() {
         AlertUtils.showConfirm(
             this,
-            getString(R.string.do_you_really_want_to_delete) + "\n" + automobiles.get(selectedPosition).getNickname(),
+            getString(R.string.do_you_really_want_to_delete) + "\n" + supplies.get(selectedPosition).getDate(),
             (dialog, option) -> {
                 if (option == DialogInterface.BUTTON_POSITIVE) {
-                    Database.get(this).automobileDao().delete(automobiles.get(selectedPosition));
+                    Database.get(this).supplyDao().delete(supplies.get(selectedPosition));
                     setListViewItens();
                 }
             }
         );
+    }
+
+    private long getAutomobileId() {
+        var automobileId = -1L;
+        var bundle = getIntent().getExtras();
+
+        if (bundle != null) {
+            var automobile = Database.get(this).automobileDao().findById(bundle.getLong(KEY_ID));
+
+            setTitle(automobile.getNickname());
+
+            automobileId = automobile.getId();
+        }
+
+        return automobileId;
+    }
+
+    private void setListViewItens() {
+        supplies = new ArrayList<>(findAll());
+
+        supplyAdapter = new SupplyAdapter(this, supplies);
+
+        lvSupplies.setAdapter(supplyAdapter);
+    }
+
+    private List<Supply> findAll() {
+        var supplyDao = Database.get(this).supplyDao();
+
+        return ESortBy.valueOf(sortByDate) == ESortBy.ASC
+            ? supplyDao.findAllOrderByDateAsc()
+            : supplyDao.findAllOrderByDateDesc();
     }
 
     private void loadPreferences() {
@@ -131,24 +184,8 @@ public class AutomobileListingActivity extends AppCompatActivity {
     }
 
     private void loadPreferenceSortByNickname() {
-        sortByNickname = getSharedPreferences(KEY_ARCHIVE, Context.MODE_PRIVATE)
-            .getString(KEY_SORT_BY_NICKNAME, sortByNickname);
-    }
-
-    private void setListViewItens() {
-        automobiles = new ArrayList<>(findAll());
-
-        automobileAdapter = new AutomobileAdapter(this, automobiles);
-
-        lvAutomobile.setAdapter(automobileAdapter);
-    }
-
-    private List<Automobile> findAll() {
-        var automobileDao = Database.get(this).automobileDao();
-
-        return ESortBy.valueOf(sortByNickname) == ESortBy.ASC
-            ? automobileDao.findAllOrderByNicknameAsc()
-            : automobileDao.findAllOrderByNicknameDesc();
+        sortByDate = getSharedPreferences(KEY_ARCHIVE, Context.MODE_PRIVATE)
+            .getString(KEY_SORT_BY_DATE, sortByDate);
     }
 
     private void configureListView() {
@@ -157,14 +194,14 @@ public class AutomobileListingActivity extends AppCompatActivity {
     }
 
     private void configureOnItemClick() {
-        lvAutomobile.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        lvSupplies.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-        lvAutomobile.setOnItemClickListener((parent, view, position, id) -> {
+        lvSupplies.setOnItemClickListener((parent, view, position, id) -> {
             selectedPosition = position;
-            openSupplyListingActivity();
+            openEditActivity();
         });
 
-        lvAutomobile.setOnItemLongClickListener((parent, view, position, id) -> {
+        lvSupplies.setOnItemLongClickListener((parent, view, position, id) -> {
             if (actionMode != null) {
                 return false;
             }
@@ -174,19 +211,25 @@ public class AutomobileListingActivity extends AppCompatActivity {
             actionMode = startSupportActionMode(actionModeCallback);
 
             view.setBackgroundColor(Color.LTGRAY);
-            lvAutomobile.setEnabled(false);
+            lvSupplies.setEnabled(false);
 
             return true;
         });
     }
 
-    private void openSupplyListingActivity() {
-        SupplyListingActivity.open(this, automobiles.get(selectedPosition).getId());
+    @Override
+    public void onBackPressed() {
+        cancel();
+    }
+
+    private void cancel() {
+        setResult(Activity.RESULT_CANCELED);
+        finish();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.listing_automobile_menu, menu);
+        getMenuInflater().inflate(R.menu.listing_supply_menu, menu);
 
         return true;
     }
@@ -195,7 +238,7 @@ public class AutomobileListingActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem item;
 
-        switch (ESortBy.valueOf(sortByNickname)) {
+        switch (ESortBy.valueOf(sortByDate)) {
             case ASC:
                 item = menu.findItem(R.id.miAsc);
                 break;
@@ -216,24 +259,16 @@ public class AutomobileListingActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.miAddSupply:
-                openAddSupplyActivity();
-                return true;
-
-            case R.id.miAddAutomobile:
+            case R.id.miAdd:
                 openAddActivity();
                 return true;
 
             case R.id.miAsc:
-                savePreferenceSortByNickname(ESortBy.ASC.name());
+                savePreferenceSortByDate(ESortBy.ASC.name());
                 return true;
 
             case R.id.miDesc:
-                savePreferenceSortByNickname(ESortBy.DESC.name());
-                return true;
-
-            case R.id.miAbout:
-                openAboutActivity();
+                savePreferenceSortByDate(ESortBy.DESC.name());
                 return true;
 
             default:
@@ -241,33 +276,25 @@ public class AutomobileListingActivity extends AppCompatActivity {
         }
     }
 
-    private void savePreferenceSortByNickname(String newValue) {
+    private void savePreferenceSortByDate(String newValue) {
         var editor = getSharedPreferences(KEY_ARCHIVE, Context.MODE_PRIVATE).edit();
 
-        editor.putString(KEY_SORT_BY_NICKNAME, newValue);
+        editor.putString(KEY_SORT_BY_DATE, newValue);
         editor.commit();
 
-        sortByNickname = newValue;
+        sortByDate = newValue;
 
         setListViewItens();
     }
 
-    public void openAddSupplyActivity() {
-        SupplyAddActivity.openAddMode(this);
-    }
-
     public void openAddActivity() {
-        AutomobileAddActivity.openAddMode(this);
-    }
-
-    public void openAboutActivity() {
-        AboutActivity.open(this);
+        SupplyAddActivity.openAddModeByAutomobileId(this, automobileId);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == KEY_ADD_MODE || requestCode == KEY_EDIT_MODE)
+        if ((requestCode == KEY_ADD_MODE || requestCode == KEY_ADD_MODE_BY_PARAMS || requestCode == KEY_EDIT_MODE)
             && resultCode == Activity.RESULT_OK
         ) {
             setListViewItens();

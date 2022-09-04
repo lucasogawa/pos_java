@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/miAddAutomobile"
+        android:id="@+id/miAdd"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/add"
         android:visible="true"
@@ -20,8 +20,4 @@
             android:title="@string/desc" />
     </group>
 
-    <item
-        android:id="@+id/miAbout"
-        android:title="@string/about"
-        android:visible="true" />
 </menu>
