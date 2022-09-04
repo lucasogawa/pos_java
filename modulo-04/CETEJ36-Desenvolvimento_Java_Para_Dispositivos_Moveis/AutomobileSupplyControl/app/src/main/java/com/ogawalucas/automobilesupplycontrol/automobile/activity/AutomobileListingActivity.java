@@ -26,6 +26,7 @@ import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
 import com.ogawalucas.automobilesupplycontrol.database.Database;
 import com.ogawalucas.automobilesupplycontrol.supply.activity.SupplyAddActivity;
 import com.ogawalucas.automobilesupplycontrol.supply.activity.SupplyListingActivity;
+import com.ogawalucas.automobilesupplycontrol.supply.model.Supply;
 import com.ogawalucas.automobilesupplycontrol.utils.AlertUtils;
 
 import java.util.ArrayList;
@@ -116,14 +117,22 @@ public class AutomobileListingActivity extends AppCompatActivity {
     private void deleteAutomobile() {
         AlertUtils.showConfirm(
             this,
-            getString(R.string.do_you_really_want_to_delete) + "\n" + automobiles.get(selectedPosition).getNickname(),
+            getString(R.string.do_you_really_want_to_delete) + " " + automobiles.get(selectedPosition).getNickname() + "?"
+                    + "\n" + getString(R.string.it_will_remove_all_supplies),
             (dialog, option) -> {
                 if (option == DialogInterface.BUTTON_POSITIVE) {
+                    deleteSupplies();
                     Database.get(this).automobileDao().delete(automobiles.get(selectedPosition));
                     setListViewItens();
                 }
             }
         );
+    }
+
+    private void deleteSupplies() {
+        for (Supply supply : Database.get(this).supplyDao().findByAutomobileId(automobiles.get(selectedPosition).getId())) {
+            Database.get(this).supplyDao().delete(supply);
+        }
     }
 
     private void loadPreferences() {
@@ -267,6 +276,7 @@ public class AutomobileListingActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if ((requestCode == KEY_ADD_MODE || requestCode == KEY_EDIT_MODE)
             && resultCode == Activity.RESULT_OK
         ) {

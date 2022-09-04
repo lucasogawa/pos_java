@@ -52,4 +52,5 @@
     <string name="edit_supply">Editar Abastecimento</string>
     <string name="alert">Alerta</string>
     <string name="no_automobiles_added">Nenhum Automóvel Adicionado</string>
+    <string name="it_will_remove_all_supplies">Irá remover todos os abastecimentos</string>
 </resources>

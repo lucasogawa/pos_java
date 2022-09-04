@@ -66,4 +66,5 @@
     <string name="alert">Alert</string>
     <string name="ok" translatable="false">Ok</string>
     <string name="no_automobiles_added" type="id">No Automobiles Added</string>
+    <string name="it_will_remove_all_supplies">It will remove all supplies</string>
 </resources>

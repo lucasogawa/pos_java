@@ -25,6 +25,9 @@ public interface SupplyDao {
     @Query("SELECT * FROM Supply WHERE id = :id")
     Supply findById(long id);
 
+    @Query("SELECT * FROM Supply WHERE automobileId = :automobileId")
+    List<Supply> findByAutomobileId(long automobileId);
+
     @Query("SELECT * FROM Supply ORDER BY date ASC")
     List<Supply> findAllOrderByDateAsc();
 
