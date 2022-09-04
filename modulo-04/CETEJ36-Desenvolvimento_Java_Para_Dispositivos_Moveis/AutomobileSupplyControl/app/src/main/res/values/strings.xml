@@ -63,4 +63,7 @@
     <string name="automobile">Automobile</string>
     <string name="add_supply">Add Supply</string>
     <string name="edit_supply">Edit Supply</string>
+    <string name="alert">Alert</string>
+    <string name="ok" translatable="false">Ok</string>
+    <string name="no_automobiles_added" type="id">No Automobiles Added</string>
 </resources>

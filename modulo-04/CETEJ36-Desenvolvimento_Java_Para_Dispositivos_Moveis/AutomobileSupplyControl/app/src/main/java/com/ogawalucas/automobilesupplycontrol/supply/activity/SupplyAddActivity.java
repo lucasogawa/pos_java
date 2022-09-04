@@ -10,6 +10,7 @@ import static com.ogawalucas.automobilesupplycontrol.utils.ValidateUtils.isTextV
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.ogawalucas.automobilesupplycontrol.R;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
 import com.ogawalucas.automobilesupplycontrol.database.Database;
 import com.ogawalucas.automobilesupplycontrol.supply.model.Supply;
+import com.ogawalucas.automobilesupplycontrol.utils.AlertUtils;
 import com.ogawalucas.automobilesupplycontrol.utils.DateUtils;
 
 import java.util.Calendar;
@@ -171,6 +173,10 @@ public class SupplyAddActivity extends AppCompatActivity {
         if (bundle != null) {
             if (bundle.getInt(KEY_MODE, KEY_ADD_MODE) == KEY_ADD_MODE) {
                 setTitle(getString(R.string.add_supply));
+
+                if (automobiles.size() == 0) {
+                    error();
+                }
             } else {
                 setTitle(getString(R.string.edit_supply));
 
@@ -192,6 +198,18 @@ public class SupplyAddActivity extends AppCompatActivity {
                 spAutomobile.setEnabled(false);
             }
         }
+    }
+
+    private void error() {
+        AlertUtils.showAlert(
+            this,
+            getString(R.string.no_automobiles_added),
+            (dialog, option) -> {
+                if (option == DialogInterface.BUTTON_NEUTRAL) {
+                    finish();
+                }
+            }
+        );
     }
 
     private int getAutomobile(long id) {

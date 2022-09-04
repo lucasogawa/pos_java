@@ -50,4 +50,6 @@
     <string name="automobile">Automóvel</string>
     <string name="add_supply">Adicionar Abastecimento</string>
     <string name="edit_supply">Editar Abastecimento</string>
+    <string name="alert">Alerta</string>
+    <string name="no_automobiles_added">Nenhum Automóvel Adicionado</string>
 </resources>
