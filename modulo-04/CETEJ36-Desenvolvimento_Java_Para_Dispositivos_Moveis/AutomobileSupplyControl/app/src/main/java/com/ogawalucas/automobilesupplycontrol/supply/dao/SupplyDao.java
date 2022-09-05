@@ -33,4 +33,10 @@ public interface SupplyDao {
 
     @Query("SELECT * FROM Supply ORDER BY date DESC")
     List<Supply> findAllOrderByDateDesc();
+
+    @Query("SELECT DISTINCT(typeOfFuel) FROM Supply WHERE automobileId = :automobileId ORDER BY typeOfFuel")
+    List<String> findTypesOfFuelByAutomobileId(long automobileId);
+
+    @Query("SELECT avg(kilometersPerLiter) FROM Supply WHERE automobileId = :automobileId AND typeOfFuel = :typeOfFuel")
+    double findAvgKilometersPerLiterByAutomobileIdAndTypeOfFuel(long automobileId, String typeOfFuel);
 }

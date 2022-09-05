@@ -29,7 +29,6 @@ import com.ogawalucas.automobilesupplycontrol.supply.model.Supply;
 import com.ogawalucas.automobilesupplycontrol.utils.AlertUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SupplyListingActivity extends AppCompatActivity {
 
@@ -167,17 +166,17 @@ public class SupplyListingActivity extends AppCompatActivity {
     }
 
     private void setListViewItens() {
-        supplies = new ArrayList<>(findAll());
+        supplies = findAll();
 
         supplyAdapter = new SupplyAdapter(this, supplies);
 
         lvSupplies.setAdapter(supplyAdapter);
     }
 
-    private List<Supply> findAll() {
+    private ArrayList<Supply> findAll() {
         return ESortBy.valueOf(sortByDate) == ESortBy.ASC
-            ? supplyDao.findAllOrderByDateAsc()
-            : supplyDao.findAllOrderByDateDesc();
+            ? new ArrayList<>(supplyDao.findAllOrderByDateAsc())
+            : new ArrayList<>(supplyDao.findAllOrderByDateDesc());
     }
 
     private void loadPreferences() {

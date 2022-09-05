@@ -1,14 +1,17 @@
 package com.ogawalucas.automobilesupplycontrol.supply.model;
 
+import static com.ogawalucas.automobilesupplycontrol.utils.NumberUtils.roundDouble;
+
+import android.content.Context;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
+import com.ogawalucas.automobilesupplycontrol.utils.DateUtils;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Date;
 
 @Entity(tableName = "supply",
@@ -63,13 +66,11 @@ public class Supply {
     }
 
     private double calculatePricePerLiter() {
-        return BigDecimal.valueOf(this.amountPaid / this.liters)
-            .setScale(2, RoundingMode.HALF_DOWN).doubleValue();
+        return roundDouble(this.amountPaid / this.liters);
     }
 
     private double calculateKilometersPerLiter() {
-        return BigDecimal.valueOf(this.kilometers / this.liters)
-            .setScale(2, RoundingMode.HALF_DOWN).doubleValue();
+        return roundDouble(this.kilometers / this.liters);
     }
 
     public long getId() {
@@ -150,6 +151,10 @@ public class Supply {
 
     public void setKilometersPerLiter(double kilometersPerLiter) {
         this.kilometersPerLiter = kilometersPerLiter;
+    }
+
+    public String getFormattedDate(Context context) {
+        return DateUtils.format(context, this.date);
     }
 }
 

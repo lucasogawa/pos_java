@@ -3,6 +3,7 @@ package com.ogawalucas.automobilesupplycontrol.automobile.activity;
 import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_ADD_MODE;
 import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_ARCHIVE;
 import static com.ogawalucas.automobilesupplycontrol.constants.KeyConstants.KEY_EDIT_MODE;
+import static com.ogawalucas.automobilesupplycontrol.utils.NumberUtils.roundDouble;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +22,8 @@ import androidx.appcompat.view.ActionMode;
 import com.ogawalucas.automobilesupplycontrol.R;
 import com.ogawalucas.automobilesupplycontrol.about.activity.AboutActivity;
 import com.ogawalucas.automobilesupplycontrol.automobile.adapter.AutomobileAdapter;
+import com.ogawalucas.automobilesupplycontrol.automobile.adapter.AutomobileAdapterView;
+import com.ogawalucas.automobilesupplycontrol.automobile.adapter.AvgSupply;
 import com.ogawalucas.automobilesupplycontrol.automobile.dao.AutomobileDao;
 import com.ogawalucas.automobilesupplycontrol.automobile.enums.ESortBy;
 import com.ogawalucas.automobilesupplycontrol.automobile.model.Automobile;
@@ -127,7 +130,7 @@ public class AutomobileListingActivity extends AppCompatActivity {
         AlertUtils.showConfirm(
             this,
             getString(R.string.do_you_really_want_to_delete) + " " + automobiles.get(selectedPosition).getNickname() + "?"
-                    + "\n" + getString(R.string.it_will_remove_all_supplies),
+                + "\n" + getString(R.string.it_will_remove_all_supplies),
             (dialog, option) -> {
                 if (option == DialogInterface.BUTTON_POSITIVE) {
                     deleteSupplies();
@@ -154,17 +157,37 @@ public class AutomobileListingActivity extends AppCompatActivity {
     }
 
     private void setListViewItens() {
-        automobiles = new ArrayList<>(findAll());
+        automobiles = findAll();
 
-        automobileAdapter = new AutomobileAdapter(this, automobiles);
+        automobileAdapter = new AutomobileAdapter(this, getAdapterView());
 
         lvAutomobile.setAdapter(automobileAdapter);
     }
 
-    private List<Automobile> findAll() {
+    private ArrayList<Automobile> findAll() {
         return ESortBy.valueOf(sortByNickname) == ESortBy.ASC
-            ? automobileDao.findAllOrderByNicknameAsc()
-            : automobileDao.findAllOrderByNicknameDesc();
+            ? new ArrayList<>(automobileDao.findAllOrderByNicknameAsc())
+            : new ArrayList<>(automobileDao.findAllOrderByNicknameDesc());
+    }
+
+    private List<AutomobileAdapterView> getAdapterView() {
+        var adapterView = new ArrayList<AutomobileAdapterView>();
+
+        for (Automobile automobile : automobiles) {
+            var avgSupplies = new ArrayList<AvgSupply>();
+
+            for (String typeOfFuel : supplyDao.findTypesOfFuelByAutomobileId(automobile.getId())) {
+                avgSupplies.add(new AvgSupply(typeOfFuel, getAvgSupply(automobile.getId(), typeOfFuel)));
+            }
+
+            adapterView.add(new AutomobileAdapterView(automobile.getNickname(), avgSupplies));
+        }
+
+        return adapterView;
+    }
+
+    private double getAvgSupply(long automobileId, String typeOfFuel) {
+        return roundDouble(supplyDao.findAvgKilometersPerLiterByAutomobileIdAndTypeOfFuel(automobileId, typeOfFuel));
     }
 
     private void configureListView() {

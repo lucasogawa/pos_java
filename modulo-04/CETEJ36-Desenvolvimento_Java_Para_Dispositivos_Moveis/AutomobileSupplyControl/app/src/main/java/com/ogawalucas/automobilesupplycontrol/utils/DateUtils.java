@@ -18,6 +18,6 @@ public class DateUtils {
                 .format(date);
         }
 
-        return ((SimpleDateFormat) DateFormat.getMediumDateFormat(context)).format(date);
+        return DateFormat.getMediumDateFormat(context).format(date);
     }
 }
