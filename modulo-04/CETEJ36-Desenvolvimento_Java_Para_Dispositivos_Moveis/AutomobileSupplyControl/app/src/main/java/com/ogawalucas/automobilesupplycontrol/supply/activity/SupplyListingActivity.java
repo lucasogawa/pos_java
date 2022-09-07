@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 
 import com.ogawalucas.automobilesupplycontrol.R;
+import com.ogawalucas.automobilesupplycontrol.automobile.dao.AutomobileDao;
 import com.ogawalucas.automobilesupplycontrol.automobile.enums.ESortBy;
 import com.ogawalucas.automobilesupplycontrol.database.Database;
 import com.ogawalucas.automobilesupplycontrol.supply.adapter.SupplyAdapter;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 
 public class SupplyListingActivity extends AppCompatActivity {
 
+    private static final String PATTERN_ALERT_MESSAGE = "%s - %s";
     private static final String KEY_SORT_BY_DATE = "SORT_BY_DATE";
 
     private String sortByDate = ESortBy.ASC.name();
@@ -45,6 +47,7 @@ public class SupplyListingActivity extends AppCompatActivity {
     private SupplyAdapter supplyAdapter;
     private ArrayList<Supply> supplies;
 
+    private AutomobileDao automobileDao;
     private SupplyDao supplyDao;
 
     private long automobileId = -1;
@@ -80,6 +83,7 @@ public class SupplyListingActivity extends AppCompatActivity {
         lvSupplies = findViewById(R.id.lvSupplies);
         actionModeCallback = getActionModeMenuItemSelected();
 
+        automobileDao = Database.get(this).automobileDao();
         supplyDao = Database.get(this).supplyDao();
 
         automobileId = getAutomobileId();
@@ -138,9 +142,12 @@ public class SupplyListingActivity extends AppCompatActivity {
     }
 
     private void deleteSupply() {
+        var supply = supplies.get(selectedPosition);
+
         AlertUtils.showConfirm(
             this,
-            getString(R.string.do_you_really_want_to_delete) + "\n" + supplies.get(selectedPosition).getDate(),
+            getString(R.string.do_you_really_want_to_delete) + "\n"
+                + String.format(PATTERN_ALERT_MESSAGE, supply.getFormattedDate(this), supply.getFuelStation()),
             (dialog, option) -> {
                 if (option == DialogInterface.BUTTON_POSITIVE) {
                     supplyDao.delete(supplies.get(selectedPosition));
@@ -155,7 +162,7 @@ public class SupplyListingActivity extends AppCompatActivity {
         var bundle = getIntent().getExtras();
 
         if (bundle != null) {
-            var automobile = Database.get(this).automobileDao().findById(bundle.getLong(KEY_ID));
+            var automobile = automobileDao.findById(bundle.getLong(KEY_ID));
 
             setTitle(automobile.getNickname());
 
@@ -174,9 +181,11 @@ public class SupplyListingActivity extends AppCompatActivity {
     }
 
     private ArrayList<Supply> findAll() {
+        var automobileId = getIntent().getExtras().getLong(KEY_ID);
+
         return ESortBy.valueOf(sortByDate) == ESortBy.ASC
-            ? new ArrayList<>(supplyDao.findAllOrderByDateAsc())
-            : new ArrayList<>(supplyDao.findAllOrderByDateDesc());
+            ? new ArrayList<>(supplyDao.findByAutomobileIdOrderByDateAsc(automobileId))
+            : new ArrayList<>(supplyDao.findByAutomobileIdOrderByDateDesc(automobileId));
     }
 
     private void loadPreferences() {

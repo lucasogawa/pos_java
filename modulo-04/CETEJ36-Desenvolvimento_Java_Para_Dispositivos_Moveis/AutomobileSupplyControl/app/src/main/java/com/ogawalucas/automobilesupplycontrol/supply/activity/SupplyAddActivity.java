@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -160,13 +159,13 @@ public class SupplyAddActivity extends AppCompatActivity {
     }
 
     private void setSpinnersOptionsAutomobile() {
-        AsyncTask.execute(() -> this.runOnUiThread(() -> spAutomobile.setAdapter(
+        spAutomobile.setAdapter(
             new ArrayAdapter<>(
                 SupplyAddActivity.this,
                 android.R.layout.simple_list_item_1,
                 automobiles
             )
-        )));
+        );
     }
 
     private void setSpinnersOptionsTypesOfFuel() {
@@ -182,7 +181,7 @@ public class SupplyAddActivity extends AppCompatActivity {
         var bundle = getIntent().getExtras();
 
         if (bundle != null) {
-            switch (bundle.getInt(KEY_MODE, KEY_ADD_MODE)) {
+            switch (bundle.getInt(KEY_MODE)) {
                 case KEY_ADD_MODE:
                     setTitle(getString(R.string.add_supply));
                     validateAutomobiles();
@@ -190,7 +189,7 @@ public class SupplyAddActivity extends AppCompatActivity {
 
                 case KEY_ADD_MODE_BY_PARAMS:
                     setTitle(getString(R.string.add_supply));
-                    spAutomobile.setSelection(getAutomobile(bundle.getLong(KEY_ID)));
+                    spAutomobile.setSelection(getAutomobilePosition(bundle.getLong(KEY_ID)));
                     spAutomobile.setEnabled(false);
                     break;
 
@@ -198,11 +197,11 @@ public class SupplyAddActivity extends AppCompatActivity {
                     setTitle(getString(R.string.edit_supply));
                     var supply = supplyDao.findById(bundle.getLong(KEY_ID));
 
-                    spAutomobile.setSelection(getAutomobile(supply.getId()));
+                    spAutomobile.setSelection(getAutomobilePosition(supply.getId()));
                     etFuelStation.setText(supply.getFuelStation());
                     calendarDate.setTime(supply.getDate());
                     etDate.setText(DateUtils.format(this, supply.getDate()));
-                    spTypeOfFuel.setSelection(getTypeOfFuel(supply.getTypeOfFuel()));
+                    spTypeOfFuel.setSelection(getTypeOfFuelPosition(supply.getTypeOfFuel()));
                     etKilometers.setText(String.valueOf(supply.getKilometers()));
                     etLiters.setText(String.valueOf(supply.getLiters()));
                     etAmountPaid.setText(String.valueOf(supply.getAmountPaid()));
@@ -227,19 +226,20 @@ public class SupplyAddActivity extends AppCompatActivity {
         }
     }
 
-    private int getAutomobile(long id) {
+    private int getAutomobilePosition(long id) {
         int pos = 0;
 
         for (int i = 0; i < automobiles.size(); i++) {
-            if (automobiles.get(i).getId() == (id)) {
+            if (automobiles.get(i).getId() == id) {
                 pos = i;
+                break;
             }
         }
 
         return pos;
     }
 
-    private int getTypeOfFuel(String typeOfFuel) {
+    private int getTypeOfFuelPosition(String typeOfFuel) {
         var pos = 0;
         var typesOfFuel = getResources().getStringArray(R.array.typesOfFuel);
 
@@ -324,11 +324,13 @@ public class SupplyAddActivity extends AppCompatActivity {
             Double.parseDouble(etLiters.getText().toString()),
             Double.parseDouble(etAmountPaid.getText().toString())
         );
-        supply.setId(bundle.getLong(KEY_ID));
 
-        if (bundle.getInt(KEY_MODE, KEY_ADD_MODE) == KEY_ADD_MODE) {
+        var keyMode = bundle.getInt(KEY_MODE, KEY_ADD_MODE);
+
+        if (keyMode == KEY_ADD_MODE || keyMode == KEY_ADD_MODE_BY_PARAMS) {
             supplyDao.create(supply);
         } else {
+            supply.setId(bundle.getLong(KEY_ID));
             supplyDao.update(supply);
         }
 

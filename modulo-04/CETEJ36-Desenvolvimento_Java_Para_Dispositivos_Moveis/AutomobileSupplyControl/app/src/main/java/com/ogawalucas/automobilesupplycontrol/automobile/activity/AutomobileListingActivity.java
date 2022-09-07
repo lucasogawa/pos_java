@@ -313,4 +313,11 @@ public class AutomobileListingActivity extends AppCompatActivity {
             setListViewItens();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setListViewItens();
+    }
 }

@@ -28,11 +28,11 @@ public interface SupplyDao {
     @Query("SELECT * FROM Supply WHERE automobileId = :automobileId")
     List<Supply> findByAutomobileId(long automobileId);
 
-    @Query("SELECT * FROM Supply ORDER BY date ASC")
-    List<Supply> findAllOrderByDateAsc();
+    @Query("SELECT * FROM Supply WHERE automobileId = :automobileId ORDER BY date ASC")
+    List<Supply> findByAutomobileIdOrderByDateAsc(long automobileId);
 
-    @Query("SELECT * FROM Supply ORDER BY date DESC")
-    List<Supply> findAllOrderByDateDesc();
+    @Query("SELECT * FROM Supply WHERE automobileId = :automobileId ORDER BY date DESC")
+    List<Supply> findByAutomobileIdOrderByDateDesc(long automobileId);
 
     @Query("SELECT DISTINCT(typeOfFuel) FROM Supply WHERE automobileId = :automobileId ORDER BY typeOfFuel")
     List<String> findTypesOfFuelByAutomobileId(long automobileId);

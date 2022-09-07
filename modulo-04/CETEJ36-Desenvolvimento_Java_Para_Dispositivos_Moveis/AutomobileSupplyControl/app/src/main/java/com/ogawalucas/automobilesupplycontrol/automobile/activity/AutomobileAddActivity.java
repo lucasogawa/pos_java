@@ -131,7 +131,7 @@ public class AutomobileAddActivity extends AppCompatActivity {
                 etNickname.setText(automobile.getNickname());
                 cbTravelCar.setChecked(automobile.isTravel());
                 rgType.check(getTypeId(automobile.getType()));
-                spBrand.setSelection(getBrandId(automobile.getBrand()));
+                spBrand.setSelection(getBrandPosition(automobile.getBrand()));
                 etModel.setText(automobile.getModel());
                 etColor.setText(automobile.getColor());
                 etManufactoringYear.setText(automobile.getManufactoringYear());
@@ -166,7 +166,7 @@ public class AutomobileAddActivity extends AppCompatActivity {
         return rbId;
     }
 
-    private int getBrandId(String brand) {
+    private int getBrandPosition(String brand) {
         int pos = 0;
 
         var brands = getResources().getStringArray(R.array.brands);
@@ -174,6 +174,7 @@ public class AutomobileAddActivity extends AppCompatActivity {
         for (int i = 0; i < brands.length; i++) {
             if (brands[i].equals(brand)) {
                 pos = i;
+                break;
             }
         }
 
