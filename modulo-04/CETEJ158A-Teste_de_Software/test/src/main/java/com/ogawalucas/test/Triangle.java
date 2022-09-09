@@ -21,7 +21,7 @@ public class Triangle {
     private void validateSides(int side1, int side2, int side3) throws ValidationException {
         validateNegatives(side1, side2, side3);
         validateZeros(side1, side2, side3);
-        validateSumOfSides(side1, side2, side3);
+        validateSum(side1, side2, side3);
     }
 
     private void validateNegatives(int side1, int side2, int side3) throws ValidationException {
@@ -36,7 +36,7 @@ public class Triangle {
         }
     }
 
-    private void validateSumOfSides(int side1, int side2, int side3) throws ValidationException {
+    private void validateSum(int side1, int side2, int side3) throws ValidationException {
         if ((side1 + side2 <= side3) || (side2 + side3 <= side1) || (side1 + side3 <= side2)) {
             throw EX_SIDE_SIZE;
         }
