@@ -1,8 +1,8 @@
-const $id = function(id) {
+const $id = function (id) {
     return document.getElementById(id);
 };
 
-const updateQnt = function(qnt, noteQnt, noteValue) {
+const updateQnt = function (qnt, noteQnt, noteValue) {
     return qnt - noteQnt * noteValue;
 };
 
@@ -14,7 +14,7 @@ document.querySelector('#btn-get-money').addEventListener('click', () => {
     }
 
     let qnt100 = parseInt(qnt / 100);
-    qnt = updateQnt(qnt, qnt100, 100)
+    qnt = updateQnt(qnt, qnt100, 100);
 
     let qnt50 = parseInt(qnt / 50);
     qnt = updateQnt(qnt, qnt50, 50);
