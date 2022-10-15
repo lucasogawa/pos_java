@@ -22,4 +22,12 @@ export class Fuel {
   set price(price) {
     this._price = price;
   }
+
+  static get GASOLINE() {
+    return 'GASOLINE';
+  }
+
+  static get ETHANOL() {
+    return 'ETHANOL';
+  }
 }
